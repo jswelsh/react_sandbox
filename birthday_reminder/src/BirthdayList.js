@@ -1,9 +1,18 @@
 import Birthday from './Birthday'
 
 export default function BirthdayList(props) {
+
+  console.log(props.birthdayList)
   return (
-    <h3>
-      hi
-    </h3>
+    <div>
+      {props.birthdayList.map(birthday => {
+        return(<Birthday 
+          key={birthday.id}
+          date= {birthday.date}
+          firstName= {birthday.firstName}
+          lastName= {birthday.lastName}
+        />)
+      })}
+    </div>
   )
 }
