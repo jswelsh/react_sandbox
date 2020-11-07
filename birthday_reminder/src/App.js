@@ -22,7 +22,7 @@ import Content from './Content'
     id: 5,
     date: 'Aug 18',
     firstName: 'fooooo',
-    lastName: 'baaaaaaaz'}
+    lastName: 'baaaaz'}
     ]
 
 function App() {
