@@ -1,6 +1,5 @@
+
 import React, { useEffect, useState, ChangeEvent } from 'react';
-import { Link } from 'react-router-dom';
-import './App.css';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
@@ -8,7 +7,10 @@ import {
   saveUsername as saveUsernameAction,
   saveUserMessage as saveUserMessageAction,
 } from './store/user/UserActions';
+import { Link } from 'react-router-dom';
+import './App.css';
 import { IUser } from './store/user/UserTypes';
+import { IAppState } from './store/RootReducer';
 
 interface IAppOwnProps {
   username: string | undefined;
@@ -78,7 +80,8 @@ const mapDispatchToProps: MapDispatchToProps<
 });
 
 export const App = connect<
-{},
-IAppDispatchToProps,
-IAppOwnProps,
-IAppState>(null, mapDispatchToProps)(AppUnconnected)
+  {},
+  IAppDispatchToProps,
+  IAppOwnProps,
+  IAppState
+>(null, mapDispatchToProps)(AppUnconnected);
