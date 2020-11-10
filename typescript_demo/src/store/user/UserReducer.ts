@@ -17,7 +17,7 @@ export function userReducer(
 			return {
 				...prevState,
 				username: action.payload.username}
-		case UserActions.SAVE_USER_MESSAGE  :
+		case UserActions.SAVE_USER_MESSAGE:
 			return {
 				...prevState,
 				userMessage: action.payload.userMessage}
