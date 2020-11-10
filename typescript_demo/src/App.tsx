@@ -1,7 +1,6 @@
-import { time } from 'console';
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
-
+import './App.css';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
@@ -10,27 +9,30 @@ import {
   saveUserMessage as saveUserMessageAction,
 } from './store/user/UserActions';
 import { IUser } from './store/user/UserTypes';
-import { IAppState } from './store/RootReducer';
-import './App.css';
 
 interface IAppOwnProps {
-  username:string | undefined;
-  userType:'admin' | 'moderator' | 'user' | 'guest';
+  username: string | undefined;
+  userType: 'admin' | 'moderator' | 'user' | 'guest';
 }
 
-const App: React.FC<IAppOwnProps> = ({userType, username}): JSX.Element => {
-  const [time, setTime] = useState<Date>(() => new Date(Date.now()));
-  const [message, setMessage] = useState<string>('')
+interface IAppDispatchToProps {
+  saveUsername: (user: IUser) => void;
+  saveUserMessage: (user: IUser) => void;
+}
 
-  
+const AppUnconnected: React.FC<IAppOwnProps> = ({ userType, username }): JSX.Element => {
+  const [time, setTime] = useState<Date>(() => new Date(Date.now()));
+  const [message, setMessage] = useState<string>('');
+
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setMessage(event.target.value);
-  }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date(Date.now()));
     }, 1000);
+
     return () => {
       clearInterval(timer);
     }
@@ -39,7 +41,7 @@ const App: React.FC<IAppOwnProps> = ({userType, username}): JSX.Element => {
   return (
     <div className="App">
       <p>
-        hi, {username ? username : 'Mysterious User'}, your user type is {username? userType : 'irrelevant because I do not know you'}
+        Hi, {username ? username : 'Mysterious Entity'}, your user type is {username ? userType : 'irrelevant because I do not know you'}.
       </p>
       <p>
         {time.toUTCString()}
@@ -54,11 +56,29 @@ const App: React.FC<IAppOwnProps> = ({userType, username}): JSX.Element => {
         Your message: {message || ''}
       </p>
       <Link
-        to='/userList'>
-          User List 
+        to='/userlist'
+      >
+        User List
       </Link>
     </div>
   );
 }
 
-export default App;
+const mapDispatchToProps: MapDispatchToProps<
+  IAppDispatchToProps,
+  IAppOwnProps
+> = (dispatch: Dispatch, ownProps: IAppOwnProps): IAppDispatchToProps => ({
+  saveUsername: (user: IUser) => {
+    dispatch(saveUsernameAction(user));
+  },
+
+  saveUserMessage: (user: IUser) => {
+    dispatch(saveUserMessageAction(user));
+  },
+});
+
+export const App = connect<
+{},
+IAppDispatchToProps,
+IAppOwnProps,
+IAppState>(null, mapDispatchToProps)(AppUnconnected)

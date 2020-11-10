@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from '/store';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './index.css';
-import App from './App';
+import { App } from './App';
 import { UserList } from './UserList';
 //import * as serviceWorker from './serviceWorker';
 
