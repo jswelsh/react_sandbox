@@ -1,6 +1,16 @@
 import { time } from 'console';
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+import { Dispatch } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import {
+  saveUsername as saveUsernameAction,
+  saveUserMessage as saveUserMessageAction,
+} from './store/user/UserActions';
+import { IUser } from './store/user/UserTypes';
+import { IAppState } from './store/RootReducer';
 import './App.css';
 
 interface IAppOwnProps {
