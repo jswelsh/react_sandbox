@@ -22,7 +22,13 @@ interface IAppDispatchToProps {
   saveUserMessage: (user: IUser) => void;
 }
 
-const AppUnconnected: React.FC<IAppOwnProps> = ({ userType, username }): JSX.Element => {
+const AppUnconnected: React.FC<IAppDispatchToProps & IAppOwnProps> = 
+({ 
+  userType, 
+  username,
+  saveUsername,
+  saveUserMessage
+}): JSX.Element => {
   const [time, setTime] = useState<Date>(() => new Date(Date.now()));
   const [message, setMessage] = useState<string>('');
 
@@ -35,10 +41,18 @@ const AppUnconnected: React.FC<IAppOwnProps> = ({ userType, username }): JSX.Ele
       setTime(new Date(Date.now()));
     }, 1000);
 
+    if(username) {
+      saveUsername({username, userMessage: message});
+    }
+    
     return () => {
       clearInterval(timer);
     }
-  }, [username]);
+  }, [username, saveUsername]);
+
+  useEffect(() => {
+    saveUserMessage({username, userMessage: message});
+  }, [message, saveUserMessage]);
 
   return (
     <div className="App">
