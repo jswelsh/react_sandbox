@@ -7,6 +7,8 @@ import { IAppState } from './store/RootReducer';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IUser } from './store/user/UserTypes';
+import { getFriendList as getFriendListAction } from './store/user/UserActions';
+
 
 const CenterContent = styled.div`
     text-align: center;
@@ -18,6 +20,10 @@ interface IUserListOwnProps {
 
 interface IUserListStateToProps {
     user: IUser
+}
+
+interface IUserListDispatchToProps {
+	getFriendList: (url: string) => void;
 }
 
 const UserListUnconnected: React.FC<IUserListStateToProps & IUserListOwnProps> = 
@@ -44,18 +50,18 @@ const UserListUnconnected: React.FC<IUserListStateToProps & IUserListOwnProps> =
     );
 }
 
-const mapStateToProps: MapStateToProps<
-    IUserListStateToProps,
-    IUserListOwnProps,
-    IAppState
-> = (state: IAppState, ownProps: IUserListOwnProps): IUserListStateToProps => ({
-    user: state.user,
-    ...ownProps
+const mapDispatchToProps: MapDispatchToProps<
+    IUserListDispatchToProps,
+    IUserListOwnProps
+> = (dispatch: ThunkDispatch<{}, {}, AnyAction>, ownProps: IUserListOwnProps) => ({
+    getFriendList: async (url: string) => {
+        dispatch(getFriendListAction(url));
+    }
 });
 
 export const UserList = connect<
     IUserListStateToProps,
-    {},
+    IUserListDispatchToProps,
     IUserListOwnProps,
     IAppState
->(mapStateToProps)(UserListUnconnected);
+>(mapStateToProps, mapDispatchToProps)(UserListUnconnected);
