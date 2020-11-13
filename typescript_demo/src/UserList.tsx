@@ -1,14 +1,13 @@
 
-import React from 'react';
-import { Dispatch } from 'redux';
+import React, { useEffect, useState } from 'react';
+import { Dispatch, AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { IAppState } from './store/RootReducer';
+import { getFriendList as getFriendListAction } from './store/user/UserActions';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IUser } from './store/user/UserTypes';
-import { getFriendList as getFriendListAction } from './store/user/UserActions';
-
 
 const CenterContent = styled.div`
     text-align: center;
@@ -23,13 +22,26 @@ interface IUserListStateToProps {
 }
 
 interface IUserListDispatchToProps {
-	getFriendList: (url: string) => void;
+    getFriendList: (url: string) => void;
 }
 
-const UserListUnconnected: React.FC<IUserListStateToProps & IUserListOwnProps> = 
+type IUserList = IUserListStateToProps & IUserListDispatchToProps & IUserListOwnProps;
+
+const UserListUnconnected: React.FC<IUserList> = 
 ({
-    user
+    user,
+    getFriendList
 }): JSX.Element => {
+    const [fetchFriends, setFetchFriends] = useState<boolean>(true);
+
+    useEffect(() => {
+        if( fetchFriends ) {
+            getFriendList('https://jsonplaceholder.typicode.com/users');
+            setFetchFriends(false);
+        }
+    }, [fetchFriends]);
+    
+
     return (
         <CenterContent>
             <p>
@@ -49,6 +61,15 @@ const UserListUnconnected: React.FC<IUserListStateToProps & IUserListOwnProps> =
         </CenterContent>
     );
 }
+
+const mapStateToProps: MapStateToProps<
+    IUserListStateToProps,
+    IUserListOwnProps,
+    IAppState
+> = (state: IAppState, ownProps: IUserListOwnProps): IUserListStateToProps => ({
+    user: state.user,
+    ...ownProps
+});
 
 const mapDispatchToProps: MapDispatchToProps<
     IUserListDispatchToProps,
