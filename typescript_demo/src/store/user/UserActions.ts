@@ -1,23 +1,29 @@
-import {UserActions,
+import {
 	IUser,
-	IUserActions,
+	UserActions,
 	IUserActionTypes
-} from './UserTypes'
-
+} from './UserTypes';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 export function saveUsername(user: IUser): IUserActionTypes {
 	return {
-		type: UserActions.SAVE_USERNAME,
-		payload: user
+			type: UserActions.SAVE_USERNAME,
+			payload: user
 	};
 }
 
 export function saveUserMessage(user: IUser): IUserActionTypes {
 	return {
-		type: UserActions.SAVE_USER_MESSAGE,
-		payload:user
+			type: UserActions.SAVE_USER_MESSAGE,
+			payload: user
+	};
+}
+
+export function saveFriends(users: string[]): IUserActionTypes {
+	return {
+			type: UserActions.SAVE_FRIENDS,
+			payload: users
 	};
 }
 

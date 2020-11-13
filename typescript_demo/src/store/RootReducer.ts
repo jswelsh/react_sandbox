@@ -1,11 +1,12 @@
 import { combineReducers, Reducer } from 'redux';
-import { IUser } from './user/UserTypes';
+import { IUser } from "./user/UserTypes";
 import { userReducer } from './user/UserReducer';
 
 export interface IAppState {
-  user: IUser
+    user: IUser,
+    friendList: string[],
 }
 
 export const rootReducer: Reducer<IAppState> = combineReducers<IAppState>({
-  user: userReducer
+    user: userReducer
 } as any);
