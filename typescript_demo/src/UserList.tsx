@@ -1,14 +1,15 @@
+
 import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { IUser } from './store/user/UserTypes';
-import { Dispatch, AnyAction } from 'redux';
+import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { IAppState } from './store/RootReducer';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { IUser } from './store/user/UserTypes';
 
 const CenterContent = styled.div`
-	text-align: center;
+    text-align: center;
 `;
 
 interface IUserListOwnProps {
@@ -16,34 +17,45 @@ interface IUserListOwnProps {
 }
 
 interface IUserListStateToProps {
-	user: IUser
+    user: IUser
 }
 
-const UserListUnconnected: React.FC<IUserListOwnProps> = (): JSX.Element => {
-return (
-	<CenterContent>
-		<p>
-			UserList
-		</p>
-		<Link to='/'>
-			Home
-		</Link>
-	</CenterContent>
-);	
+const UserListUnconnected: React.FC<IUserListStateToProps & IUserListOwnProps> = 
+({
+    user
+}): JSX.Element => {
+    return (
+        <CenterContent>
+            <p>
+                Retrieved Username: {user.username ? user.username : 'No username found'}
+            </p>
+            <p>
+                Retrieved User Message: {user.userMessage ? user.userMessage : 'No message found'}
+            </p>
+            <p>
+                UserList
+            </p>
+            <Link
+                to='/'
+            >
+                Home
+            </Link>
+        </CenterContent>
+    );
 }
 
 const mapStateToProps: MapStateToProps<
-	IUserListStateToProps,
-	IUserListOwnProps,
-	IAppState
+    IUserListStateToProps,
+    IUserListOwnProps,
+    IAppState
 > = (state: IAppState, ownProps: IUserListOwnProps): IUserListStateToProps => ({
-	user: state.user,
-	...ownProps
+    user: state.user,
+    ...ownProps
 });
 
 export const UserList = connect<
-	IUserListStateToProps,
-	{},
-	IUserListOwnProps,
-	IAppState
+    IUserListStateToProps,
+    {},
+    IUserListOwnProps,
+    IAppState
 >(mapStateToProps)(UserListUnconnected);
