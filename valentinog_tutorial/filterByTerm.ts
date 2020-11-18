@@ -1,4 +1,8 @@
-function filterByTerm(input: Array<string>, searchTerm: string) {
+interface Link {
+  url: string;
+}
+
+function filterByTerm(input: Array<Link>, searchTerm: string) {
   if (!searchTerm) throw Error("searchTerm cannot be empty");
   if (!input.length) throw Error("input cannot be empty");
   const regex = new RegExp(searchTerm, "i");
@@ -7,4 +11,7 @@ function filterByTerm(input: Array<string>, searchTerm: string) {
   });
 }
 
-filterByTerm(["string1", "string2", "string3"], "java");
+filterByTerm(
+  [{ url: "string1" }, { url: "string2" }, { url: "string3" }],
+  "java"
+);
