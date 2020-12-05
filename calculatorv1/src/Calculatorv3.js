@@ -13,28 +13,24 @@ let reducer = (state, action) => {
       
       if(state.expression.match(/[0-9\.]$/) && !state.expression.includes("=")){
         if(state.expression.match(/[+\-*\/]/) == null){
-          console.log('1')
           let val = state.expression + action.payload;
           return {
             display: val,
             expression: val
           };
         } else {
-          console.log('2')
           return {
             display: state.display + action.payload,
             expression: state.expression + action.payload
           };
         }
     } else if(state.expression.match(/[+\-*\/]$/)){
-      console.log('3')
       let val = state.expression + action.payload;
       return {
         display: action.payload,
         expression: val
       };
     } else if(state.display === "0" && action.payload !== "0" ||state.expression.includes("=")) {
-      console.log('4')
       return {
         display: action.payload,
         expression: action.payload
@@ -42,6 +38,12 @@ let reducer = (state, action) => {
     }
 
     case 'OPERAND_INPUT':
+      // else if(state.expression != "" && state.expression.match(/[+\-*\/]/) != null && state.expression.match(/[+\-*\/]$/) == null) {
+        let result = Number.isInteger(eval(state.expression)) ? eval(state.expression) : parseFloat(eval(state.expression).toFixed(5));
+        let buf = state.expression;
+        buf += ` = ${result}`;
+
+
       if(state.expression.includes("=")){
         let val = state.display;
         val += action.payload;
@@ -51,10 +53,11 @@ let reducer = (state, action) => {
         };
       } else {
         if(state.expression != "" && state.expression.match(/[*\-\/+]$/) == null){
+          console.log(state)
           let val = state.expression;
           val += action.payload;
           return {
-            ...state,
+            display: buf,
             expression: val
           };
         } else if(state.expression.match(/[*\-\/+]$/) != null){
@@ -62,10 +65,20 @@ let reducer = (state, action) => {
           val = val.substring(0, (val.length-1));
           val += action.payload;
           return {
-            ...state,
+            display: buf,
             expression: val
           };
         }
+        
+        /* else if(state.expression.match(/[*\-\/+]$/) != null){
+          let val = state.expression;
+          val = val.substring(0, (val.length-1));
+          val += action.payload;
+          return {
+            ...state,
+            expression: val
+          };
+        } */
       }
 
     case 'OPERAND_INPUT':
