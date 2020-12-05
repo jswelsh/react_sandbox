@@ -9,8 +9,6 @@ let reducer = (state, action) => {
 
   switch (action.type) {
     case 'NUMBER_INPUT':
-      console.log('numberinput', state)
-      
       if(state.expression.match(/[0-9\.]$/) && !state.expression.includes("=")){
         if(state.expression.match(/[+\-*\/]/) == null){
           let val = state.expression + action.payload;
@@ -19,17 +17,32 @@ let reducer = (state, action) => {
             expression: val
           };
         } else {
+          console.log(state.expression.slice(-1), 'hi')
           return {
-            display: state.display + action.payload,
+            display: state.display + '.'+ action.payload,
             expression: state.expression + action.payload
           };
         }
-    } else if(state.expression.match(/[+\-*\/]$/)){
+    }     
+    /* else if(state.expression.match(/[+\-*\/]$/)){
       let val = state.expression + action.payload;
       return {
         display: action.payload,
         expression: val
+      }; */
+    
+    else if(state.expression.slice(-1) =='.') {
+      console.log('hippo')
+    }
+    
+    else if(state.expression.match(/[+\-*\/]$/)){
+      let result = Number.isInteger(eval(state.expression+action.payload)) ? eval(state.expression+action.payload) : parseFloat(eval(state.expression+action.payload).toFixed(5));
+      let val = state.expression + action.payload;
+      return {
+        display: result,
+        expression: val
       };
+
     } else if(state.display === "0" && action.payload !== "0" ||state.expression.includes("=")) {
       return {
         display: action.payload,
@@ -38,12 +51,9 @@ let reducer = (state, action) => {
     }
 
     case 'OPERAND_INPUT':
-      // else if(state.expression != "" && state.expression.match(/[+\-*\/]/) != null && state.expression.match(/[+\-*\/]$/) == null) {
-        let result = Number.isInteger(eval(state.expression)) ? eval(state.expression) : parseFloat(eval(state.expression).toFixed(5));
-        let buf = state.expression;
-        buf += ` = ${result}`;
+      console.log(state, 'in here')
 
-
+      let result = Number.isInteger(eval(state.expression)) ? eval(state.expression) : parseFloat(eval(state.expression).toFixed(5));
       if(state.expression.includes("=")){
         let val = state.display;
         val += action.payload;
@@ -53,19 +63,20 @@ let reducer = (state, action) => {
         };
       } else {
         if(state.expression != "" && state.expression.match(/[*\-\/+]$/) == null){
-          console.log(state)
+          console.log(state, 'pooop')
           let val = state.expression;
           val += action.payload;
           return {
-            display: buf,
+            display: result,
             expression: val
           };
         } else if(state.expression.match(/[*\-\/+]$/) != null){
+          console.log('pee')
           let val = state.expression;
           val = val.substring(0, (val.length-1));
           val += action.payload;
           return {
-            display: buf,
+            display: result,
             expression: val
           };
         }
@@ -141,10 +152,13 @@ const Calculator = () => {
     return (
       <CardHeader
         className={"calculator-display"}
-        titleTypographyProps={{ align: 'right',variant: "h6" }}
-        subheader={state && state.display ? state.display: null}
-        subheaderTypographyProps={{color:'', align: 'right',variant: "h2" }}
-        title={state && state.expression ? state.expression : null}
+        titleTypographyProps={{ align: 'right',variant: "h3" }}
+        // title={state && state.expression ? state.expression : null}
+        // subheader={state && state.display ? state.display: null}
+        title={state && state.display ? state.display: null}
+        subheader={state && state.expression ? state.expression : null}
+
+        subheaderTypographyProps={{color:'', align: 'right',variant: "h6" }}
       />
     )
     // return state.num2 || state.operand ? state.operand + state.num2 : 0
