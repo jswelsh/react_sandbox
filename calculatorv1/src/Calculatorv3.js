@@ -17,7 +17,6 @@ let reducer = (state, action) => {
             expression: val
           };
         } else {
-          console.log(state.expression.slice(-1), 'hi')
           return {
             display: state.display + '.'+ action.payload,
             expression: state.expression + action.payload
@@ -51,9 +50,18 @@ let reducer = (state, action) => {
     }
 
     case 'OPERAND_INPUT':
-      console.log(state, 'in here')
-
-      let result = Number.isInteger(eval(state.expression)) ? eval(state.expression) : parseFloat(eval(state.expression).toFixed(5));
+      //console.log((state.expression.slice(-1)).match(/[+\-*\/]$/) && (state.expression.slice(-1)).match(/[+\-*\/]$/).input, 'in here')
+     // console.log(state.expression.slice(-1), 'in here')
+      if((state.expression.slice(-1)).match(/[+\-*\/]$/) && (state.expression.slice(-1)).match(/[+\-*\/]$/).input) {
+        
+        let val = state.expression.slice(0, -1); 
+        val += action.payload;
+        console.log(val)
+        return {
+          ...state,
+          expression:val
+        }
+      }
       if(state.expression.includes("=")){
         let val = state.display;
         val += action.payload;
@@ -63,7 +71,7 @@ let reducer = (state, action) => {
         };
       } else {
         if(state.expression != "" && state.expression.match(/[*\-\/+]$/) == null){
-          console.log(state, 'pooop')
+          let result = Number.isInteger(eval(state.expression)) ? eval(state.expression) : parseFloat(eval(state.expression).toFixed(5));
           let val = state.expression;
           val += action.payload;
           return {
@@ -71,7 +79,7 @@ let reducer = (state, action) => {
             expression: val
           };
         } else if(state.expression.match(/[*\-\/+]$/) != null){
-          console.log('pee')
+          let result = Number.isInteger(eval(state.expression)) ? eval(state.expression) : parseFloat(eval(state.expression).toFixed(5));
           let val = state.expression;
           val = val.substring(0, (val.length-1));
           val += action.payload;
@@ -121,7 +129,6 @@ let reducer = (state, action) => {
 
     case 'CALCULATE_EXPRESSION':
 /*   let calculate = () => { */
-      console.log('calculate', action.payload)
       if(state.expression.includes("=")){
         let val = `${state.display} = ${state.display}`;
         return {
