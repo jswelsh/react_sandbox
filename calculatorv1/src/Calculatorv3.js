@@ -112,46 +112,7 @@ let reducer = (state, action) => {
             expression: val
           };
         }
-        
-        /* else if(state.expression.match(/[*\-\/+]$/) != null){
-          let val = state.expression;
-          val = val.substring(0, (val.length-1));
-          val += action.payload;
-          return {
-            ...state,
-            expression: val
-          };
-        } */
       }
-/* 
-      if((state.expression.slice(-1)).match(/[+\-*\/]$/) && (state.expression.slice(-1)).match(/[+\-*\/]$/).input) {
-
-
-*/
-/*     case 'OPERAND_INPUT':
-      console.log('yooooo')
-      if(state.expression.slice(-1).match(/\.$/)){
-        console.log('yooooo')
-      }
-      if(state.expression == "" || state.expression.includes("=")){
-        let val = '0.';
-        return {
-          display: val,
-          expression: val
-        };
-      } else if(state.expression.match(/[+\-*\/]$/)){
-        let val = '0.';
-        return {
-          display: val,
-          expression: state.expression + val
-        };
-      } else if(!state.display.includes(".")){
-        return {
-          display: state.display + action.payload,
-          expression: state.expression + action.payload
-        };
-      } */
-  
 
     case 'CLEAR_INPUT':
       return {
