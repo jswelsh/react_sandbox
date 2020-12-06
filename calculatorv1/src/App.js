@@ -1,10 +1,15 @@
 import './App.css';
 import {Calculator} from './Calculatorv3'
+import { 
+  Grid
+} from '@material-ui/core/';
 function App() {
   return (
-    <div className="App">
+    <Grid container justify={'center'}>
+      <Grid spacing={3} margin={'auto'}>
         <Calculator />
-    </div>
+      </Grid>
+    </Grid>
   );
 }
 

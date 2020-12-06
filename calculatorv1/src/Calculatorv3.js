@@ -31,7 +31,7 @@ let reducer = (state, action) => {
     case 'NUMBER_INPUT':
       if(state.expression.match(/[0-9\.]$/) && !state.expression.includes("=")){
         if(state.expression.match(/[+\-*\/]/) == null){
-          let result  = state.expression + action.payload;
+          let result  = eval(state.expression + action.payload);
           return {
             display: result,
             expression: `${result}`
@@ -46,19 +46,21 @@ let reducer = (state, action) => {
       } else if(state.expression.match(/[+\-*\/]$/)){
         let result = Number.isInteger(
           eval(state.expression + action.payload)) ? 
-            eval(state.expression+action.payload) : 
-            parseFloat(
-              eval(state.expression+action.payload).toFixed(5));
-        let expression = state.expression + action.payload;
-        return {
+          eval(state.expression+action.payload) : 
+          parseFloat(
+            eval(state.expression+action.payload).toFixed(5));
+            let expression = state.expression + action.payload;
+            return {
+              display: result,
+              expression: expression
+            };
+          } else if(
+            state.display === "0" && action.payload !== "0" ||
+            state.expression.includes("=")) {
+              console.log('helena')
+              let result = eval(action.payload)
+              return {
           display: result,
-          expression: expression
-        };
-      } else if(
-        state.display === "0" && action.payload !== "0" ||
-        state.expression.includes("=")) {
-        return {
-          display: action.payload,
           expression: action.payload
         };
       }
@@ -167,42 +169,41 @@ const Calculator = () => {
     const Button = props => <button type="button" id={props.id} value={props.value} /* className={props.class} */className={`calculator-key ${props.className}`} onClick={props.click}>{props.display}</button>;
 
   return (
-    <>
     <Card>
-    <div className="calculator">
-      <Display />
-      <div className="calculator-keypad">
-        <div className="input-keys">
-          <div className="function-keys">
-            <Button id="clear" value="clear" display="AC" className="key-clear" click ={() => dispatch({ type: 'CLEAR_INPUT', payload: ''})}/>
-            <Button id="backspace" value="bs" display="↩" className="backspace" click ={() => dispatch({ type: 'BACK_SPACE', payload: ''})}/>
-            <Button id="sign" value="+/-" display="±" className="key-sign" click={() => dispatch({ type: 'NEGATION', payload: '-'})} />
+      <div className="calculator">
+        <Display />
+        <div className="calculator-keypad">
+          <div className="input-keys">
+            <div className="function-keys">
+              <Button id="clear" value="clear" display="AC" className="key-clear" click ={() => dispatch({ type: 'CLEAR_INPUT', payload: ''})}/>
+              <Button id="backspace" value="bs" display="↩" className="backspace" click ={() => dispatch({ type: 'BACK_SPACE', payload: ''})}/>
+              <Button id="sign" value="+/-" display="±" className="key-sign" click={() => dispatch({ type: 'NEGATION', payload: '-'})} />
+            </div>
+            <div className="digit-keys">
+              <Button id="zero" value="0" display="0" className="key-0" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '0'})} />
+              <Button id="decimal" value="." display="." className="key-dot" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '.'})} />
+              <Button id="one" value="1" display="1" className="key-1" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '1'})} />
+              <Button id="two" value="2" display="2" className="key-2" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '2'})} />
+              <Button id="three" value="3" display="3" className="key-3" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '3'})} />
+              <Button id="four" value="4" display="4" className="key-4" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '4'})} />
+              <Button id="five" value="5" display="5" className="key-5" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '5'})} />
+              <Button id="six" value="6" display="6" className="key-6" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '6'})} />
+              <Button id="seven" value="7" display="7" className="key-7" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '7'})} />
+              <Button id="eight" value="8" display="8" className="key-8" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '8'})} />
+              <Button id="nine" value="9" display="9" className="key-9" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '9'})} />
+            </div>
           </div>
-          <div className="digit-keys">
-            <Button id="zero" value="0" display="0" className="key-0" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '0'})} />
-            <Button id="decimal" value="." display="." className="key-dot" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '.'})} />
-            <Button id="one" value="1" display="1" className="key-1" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '1'})} />
-            <Button id="two" value="2" display="2" className="key-2" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '2'})} />
-            <Button id="three" value="3" display="3" className="key-3" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '3'})} />
-            <Button id="four" value="4" display="4" className="key-4" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '4'})} />
-            <Button id="five" value="5" display="5" className="key-5" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '5'})} />
-            <Button id="six" value="6" display="6" className="key-6" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '6'})} />
-            <Button id="seven" value="7" display="7" className="key-7" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '7'})} />
-            <Button id="eight" value="8" display="8" className="key-8" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '8'})} />
-            <Button id="nine" value="9" display="9" className="key-9" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '9'})} />
+          <div className="operator-keys">
+            <Button id="divide" value="/" display="÷" className="key-divide" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '/'})} />
+            <Button id="multiply" value="*" display="×" className="key-multiply" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '*'})} />
+            <Button id="subtract" value="-" display="−" className="key-subtract" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '-'})} />
+            <Button id="add" value="+" display="+" className="key-add" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '+'})} />
+            <Button id="equals" value="=" display="=" className="key-equals" click={() => dispatch({ type: 'CALCULATE_EXPRESSION', payload: state})} />
           </div>
-        </div>
-        <div className="operator-keys">
-          <Button id="divide" value="/" display="÷" className="key-divide" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '/'})} />
-          <Button id="multiply" value="*" display="×" className="key-multiply" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '*'})} />
-          <Button id="subtract" value="-" display="−" className="key-subtract" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '-'})} />
-          <Button id="add" value="+" display="+" className="key-add" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '+'})} />
-          <Button id="equals" value="=" display="=" className="key-equals" click={() => dispatch({ type: 'CALCULATE_EXPRESSION', payload: state})} />
         </div>
       </div>
-    </div>
     </Card>
-    </>
+
   );
 }
 export  {Calculator};
