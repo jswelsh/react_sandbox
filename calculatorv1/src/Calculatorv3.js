@@ -133,7 +133,7 @@ let reducer = (state, action) => {
     case 'CLEAR_INPUT':
       return {
         display: "0",
-        expression: ""
+        expression: "0"
       };
 
     case 'CALCULATE_EXPRESSION':
