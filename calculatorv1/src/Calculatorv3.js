@@ -8,33 +8,62 @@ import {
 let reducer = (state, action) => {
 
   switch (action.type) {
+
+    case 'NEGATION':
+
+      if(Number.isSafeInteger(state.display)){
+        console.log(Math.sign(state.display))
+        if(Math.sign(state.display)<0){
+          return {
+            display:(Math.abs(state.display)),
+            expression: `${(Math.abs(state.display))}`
+          }
+        } else {
+          return {
+            display:(Math.abs(state.display)*-1),
+            expression: `${(Math.abs(state.display)*-1)}`
+          }
+        } 
+      } else {
+        return {
+          expression: '',
+          display: '0'
+        }
+      }
     case 'NUMBER_INPUT':
-      console.log('numberinput', state)
-      
       if(state.expression.match(/[0-9\.]$/) && !state.expression.includes("=")){
         if(state.expression.match(/[+\-*\/]/) == null){
-          console.log('1')
           let val = state.expression + action.payload;
+
           return {
             display: val,
-            expression: val
+            expression: `${val}`
           };
         } else {
-          console.log('2')
+          let result =  parseFloat(eval(state.expression + action.payload).toFixed(5))
+          //let val = state.expression + action.payload;
           return {
-            display: state.display + action.payload,
+            display: result,//state.display + '.'+ action.payload,
             expression: state.expression + action.payload
           };
         }
-    } else if(state.expression.match(/[+\-*\/]$/)){
-      console.log('3')
+    }     
+    /* else if(state.expression.match(/[+\-*\/]$/)){
       let val = state.expression + action.payload;
       return {
         display: action.payload,
         expression: val
+      }; */
+    
+    else if(state.expression.match(/[+\-*\/]$/)){
+      let result = Number.isInteger(eval(state.expression+action.payload)) ? eval(state.expression+action.payload) : parseFloat(eval(state.expression+action.payload).toFixed(5));
+      let val = state.expression + action.payload;
+      return {
+        display: result,
+        expression: val
       };
+
     } else if(state.display === "0" && action.payload !== "0" ||state.expression.includes("=")) {
-      console.log('4')
       return {
         display: action.payload,
         expression: action.payload
@@ -42,6 +71,21 @@ let reducer = (state, action) => {
     }
 
     case 'OPERAND_INPUT':
+      console.log(typeof state.expression)
+/*       if(state.expression.match(/\.$/)){
+        return {
+          ...state
+        }
+      } */
+      //replace operand if clicked consecutively
+      if(state.expression.match(/[+\-*\/]$/)) {
+        let val = state.expression.slice(0, -1); 
+        val += action.payload;
+        return {
+          ...state,
+          expression:val
+        }
+      }
       if(state.expression.includes("=")){
         let val = state.display;
         val += action.payload;
@@ -51,13 +95,25 @@ let reducer = (state, action) => {
         };
       } else {
         if(state.expression != "" && state.expression.match(/[*\-\/+]$/) == null){
+          let result = Number.isInteger(eval(state.expression)) ? eval(state.expression) : parseFloat(eval(state.expression).toFixed(5));
           let val = state.expression;
           val += action.payload;
           return {
-            ...state,
+            display: result,
             expression: val
           };
         } else if(state.expression.match(/[*\-\/+]$/) != null){
+          let result = Number.isInteger(eval(state.expression)) ? eval(state.expression) : parseFloat(eval(state.expression).toFixed(5));
+          let val = state.expression;
+          val = val.substring(0, (val.length-1));
+          val += action.payload;
+          return {
+            display: result,
+            expression: val
+          };
+        }
+        
+        /* else if(state.expression.match(/[*\-\/+]$/) != null){
           let val = state.expression;
           val = val.substring(0, (val.length-1));
           val += action.payload;
@@ -65,10 +121,18 @@ let reducer = (state, action) => {
             ...state,
             expression: val
           };
-        }
+        } */
       }
+/* 
+      if((state.expression.slice(-1)).match(/[+\-*\/]$/) && (state.expression.slice(-1)).match(/[+\-*\/]$/).input) {
 
-    case 'OPERAND_INPUT':
+
+*/
+/*     case 'OPERAND_INPUT':
+      console.log('yooooo')
+      if(state.expression.slice(-1).match(/\.$/)){
+        console.log('yooooo')
+      }
       if(state.expression == "" || state.expression.includes("=")){
         let val = '0.';
         return {
@@ -86,21 +150,34 @@ let reducer = (state, action) => {
           display: state.display + action.payload,
           expression: state.expression + action.payload
         };
-      }
+      } */
   
 
     case 'CLEAR_INPUT':
       return {
-        display: "0",
-        expression: ""
+        expression: '',
+        display: '0'
+      };
+
+    case 'BACK_SPACE':
+      if(state.expression.length===0){
+        return {
+          expression: '',
+          display: '0'
+        };
+      }
+      return {
+        ...state,
+        expression: state.expression.substring(0, (state.expression.length-1))
       };
 
     case 'CALCULATE_EXPRESSION':
-/*   let calculate = () => { */
-      console.log('calculate', action.payload)
+
+      console.log(typeof state.display, typeof state.expression)
       if(state.expression.includes("=")){
-        let val = `${state.display} = ${state.display}`;
+        let val = `${state.display}`;
         return {
+          ...state,
           expression: val
         };
       } else if(state.expression != "" && state.expression.match(/[+\-*\/]/) != null && state.expression.match(/[+\-*\/]$/) == null) {
@@ -111,6 +188,10 @@ let reducer = (state, action) => {
           display: result,
           expression: val
         };
+      } else {
+        return {
+          ...state
+        }
       }
     }
   }
@@ -128,10 +209,13 @@ const Calculator = () => {
     return (
       <CardHeader
         className={"calculator-display"}
-        titleTypographyProps={{ align: 'right',variant: "h6" }}
-        subheader={state && state.display ? state.display: null}
-        subheaderTypographyProps={{color:'', align: 'right',variant: "h2" }}
-        title={state && state.expression ? state.expression : null}
+        titleTypographyProps={{ align: 'right',variant: "h4", noWrap: 'true'}}
+        // title={state && state.expression ? state.expression : null}
+        // subheader={state && state.display ? state.display: null}
+        title={state && state.display ? state.display: null}
+        subheader={state && state.expression ? state.expression : null}
+
+        subheaderTypographyProps={{color:'', align: 'right',variant: "h6" }}
       />
     )
     // return state.num2 || state.operand ? state.operand + state.num2 : 0
@@ -148,8 +232,8 @@ const Calculator = () => {
         <div className="input-keys">
           <div className="function-keys">
             <Button id="clear" value="clear" display="AC" className="key-clear"/* class="row-3 col-1" */click ={() => dispatch({ type: 'CLEAR_INPUT', payload: ''})}/>
-            <Button id="sign" value="+/-" display="±" className="key-sign"/* class="row-3 col-2" */ />
-            <Button id="percent" value="%" display="%" className="key-percent"/* class="row-3 col-3"*/ /> 
+            <Button id="backspace" value="bs" display="↩" className="backspace"/* class="row-3 col-3"*/ click ={() => dispatch({ type: 'BACK_SPACE', payload: ''})}/>
+            <Button id="sign" value="+/-" display="±" className="key-sign"/* class="row-3 col-2" */ click={() => dispatch({ type: 'NEGATION', payload: '-'})} />
           </div>
           <div className="digit-keys">
             <Button id="zero" value="0" display="0" className="key-0" /* class="num row-7 col-1-2 "*/ click={() => dispatch({ type: 'NUMBER_INPUT', payload: '0'})} />
