@@ -12,18 +12,24 @@ let reducer = (state, action) => {
     case 'NEGATION':
 
       if(Number.isSafeInteger(state.display)){
-        if(Math.sign(state.display)>0){
+        console.log(Math.sign(state.display))
+        if(Math.sign(state.display)<0){
+          return {
+            display:(Math.abs(state.display)),
+            expression: `${(Math.abs(state.display))}`
+          }
+        } else {
           return {
             display:(Math.abs(state.display)*-1),
             expression: `${(Math.abs(state.display)*-1)}`
           }
-        } else {
+        } 
+      } else {
         return {
-          display:(Math.abs(state.display)),
-          expression: `${(Math.abs(state.display))}`
+          expression: '',
+          display: '0'
         }
       }
-    }
     case 'NUMBER_INPUT':
       if(state.expression.match(/[0-9\.]$/) && !state.expression.includes("=")){
         if(state.expression.match(/[+\-*\/]/) == null){
@@ -149,18 +155,29 @@ let reducer = (state, action) => {
 
     case 'CLEAR_INPUT':
       return {
-        display: 0,
-        expression: "0"
+        expression: '',
+        display: '0'
+      };
+
+    case 'BACK_SPACE':
+      if(state.expression.length===0){
+        return {
+          expression: '',
+          display: '0'
+        };
+      }
+      return {
+        ...state,
+        expression: state.expression.substring(0, (state.expression.length-1))
       };
 
     case 'CALCULATE_EXPRESSION':
 
       console.log(typeof state.display, typeof state.expression)
       if(state.expression.includes("=")){
-        console.log('hi')
         let val = `${state.display}`;
         return {
-          display: val,
+          ...state,
           expression: val
         };
       } else if(state.expression != "" && state.expression.match(/[+\-*\/]/) != null && state.expression.match(/[+\-*\/]$/) == null) {
@@ -192,7 +209,7 @@ const Calculator = () => {
     return (
       <CardHeader
         className={"calculator-display"}
-        titleTypographyProps={{ align: 'right',variant: "h3" }}
+        titleTypographyProps={{ align: 'right',variant: "h4", noWrap: 'true'}}
         // title={state && state.expression ? state.expression : null}
         // subheader={state && state.display ? state.display: null}
         title={state && state.display ? state.display: null}
@@ -215,8 +232,8 @@ const Calculator = () => {
         <div className="input-keys">
           <div className="function-keys">
             <Button id="clear" value="clear" display="AC" className="key-clear"/* class="row-3 col-1" */click ={() => dispatch({ type: 'CLEAR_INPUT', payload: ''})}/>
+            <Button id="backspace" value="bs" display="↩" className="backspace"/* class="row-3 col-3"*/ click ={() => dispatch({ type: 'BACK_SPACE', payload: ''})}/>
             <Button id="sign" value="+/-" display="±" className="key-sign"/* class="row-3 col-2" */ click={() => dispatch({ type: 'NEGATION', payload: '-'})} />
-            <Button id="percent" value="%" display="%" className="key-percent"/* class="row-3 col-3"*/ /> 
           </div>
           <div className="digit-keys">
             <Button id="zero" value="0" display="0" className="key-0" /* class="num row-7 col-1-2 "*/ click={() => dispatch({ type: 'NUMBER_INPUT', payload: '0'})} />

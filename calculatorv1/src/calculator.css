@@ -145,7 +145,7 @@ button:active {
   background: white;
   line-height: 130px;
   font-size: 6em;
-  min-height: 140px;
+  min-height: 110px;
   flex: 1;
 }
 .auto-scaling-text {
