@@ -8,6 +8,15 @@ import {
 let reducer = (state, action) => {
 
   switch (action.type) {
+
+    case 'NEGATION':
+
+      if(Number.isSafeInteger(state.display)){
+      return {
+        display:(Math.abs(state.display)*-1),
+        expression: `${(Math.abs(state.display)*-1)}`
+      }
+    }
     case 'NUMBER_INPUT':
       if(state.expression.match(/[0-9\.]$/) && !state.expression.includes("=")){
         if(state.expression.match(/[+\-*\/]/) == null){
@@ -15,7 +24,7 @@ let reducer = (state, action) => {
 
           return {
             display: val,
-            expression: val
+            expression: `${val}`
           };
         } else {
           let result =  parseFloat(eval(state.expression + action.payload).toFixed(5))
@@ -49,11 +58,12 @@ let reducer = (state, action) => {
     }
 
     case 'OPERAND_INPUT':
-      if(state.expression.match(/\.$/)){
+      console.log(typeof state.expression)
+/*       if(state.expression.match(/\.$/)){
         return {
           ...state
         }
-      }
+      } */
       //replace operand if clicked consecutively
       if(state.expression.match(/[+\-*\/]$/)) {
         let val = state.expression.slice(0, -1); 
@@ -132,7 +142,7 @@ let reducer = (state, action) => {
 
     case 'CLEAR_INPUT':
       return {
-        display: "0",
+        display: 0,
         expression: "0"
       };
 
@@ -198,7 +208,7 @@ const Calculator = () => {
         <div className="input-keys">
           <div className="function-keys">
             <Button id="clear" value="clear" display="AC" className="key-clear"/* class="row-3 col-1" */click ={() => dispatch({ type: 'CLEAR_INPUT', payload: ''})}/>
-            <Button id="sign" value="+/-" display="±" className="key-sign"/* class="row-3 col-2" */ />
+            <Button id="sign" value="+/-" display="±" className="key-sign"/* class="row-3 col-2" */ click={() => dispatch({ type: 'NEGATION', payload: '-'})} />
             <Button id="percent" value="%" display="%" className="key-percent"/* class="row-3 col-3"*/ /> 
           </div>
           <div className="digit-keys">
