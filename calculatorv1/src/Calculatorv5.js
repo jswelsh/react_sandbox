@@ -1,60 +1,9 @@
 import React, { useReducer } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import './calculator.css';
 import { 
   Card,
-  Grid,
-  List,
-  ListItem,
   CardHeader,
-  Divider,
-  CardContent,
-  Paper,
 } from '@material-ui/core/';
-
-const useStyles = makeStyles(() => ({
-  Test:{
-    color:'#009868',
-    border:'solid',
-    borderRadius: 1,
-    
-  },
-  Display:{
-    backgroundColor:'#262626',
-    // backgroundColor:'#009868',
-    // border:'solid',
-    color: 'white',
-    background: 'white',
-    minHeight: '110px',
-/*     borderBottomWidth: 'thick',
-    borderTopWidth: 'thin',
-    borderLeftWidth: 'thin',
-    borderRightWidth: 'thin', */
-    flex: 1},
-  Card: {
-    borderRadius: 6,
-    background: '#262626',
-    border:'solid',
-    color:'#009868',
-    margin:'auto',
-    maxWidth:350,
-    },
-  NumbPad:{
-    
-  },
-  Button:{
-    justifyContent:'center',
-    border:'solid',
-    borderColor: 'black', 
-    borderTopWidth: 'thin',
-    borderBottomWidth: 'thin',
-    borderLeftWidth: 'thin',
-    borderRightWidth: 'thin',},
-  List:{
-    padding:0,
-    color:'white'
-    // color:'#009868'
-  }
-}));
 
 let reducer = (state, action) => {
   const DEFAULT = {
@@ -202,8 +151,6 @@ let reducer = (state, action) => {
     }
   }
 const Calculator = () => {
-  const classes = useStyles();
-
   const [state, dispatch] = useReducer(reducer, {
     display: '0',
     expression: ''})
@@ -211,68 +158,52 @@ const Calculator = () => {
   const Display = () => {
     return (
       <CardHeader
-        className={classes.Display} 
-        titleTypographyProps={{color:'inherit', align: 'right',variant: "h4", noWrap: 'true'}}
+        className={"calculator-display"}
+        titleTypographyProps={{ align: 'right',variant: "h4", noWrap: 'true'}}
         title={state && state.display ? state.display: null}
         subheader={state && state.expression ? state.expression : null}
-        subheaderTypographyProps={{/* color:'primary', */ align: 'right',variant: "h6" }}
+        subheaderTypographyProps={{color:'', align: 'right',variant: "h6" }}
       />
     )
     }
-    const Button = ({
-      size, 
-      type, 
-      payload, 
-      value}) => {
-      return (
-        <Grid item xs={size}> 
-          <ListItem
-            className={classes.Button} 
-            button 
-            divider 
-            color='primary' 
-            onClick={() => dispatch({ 
-              type: type, 
-              payload:payload})}
-          >{value}
-          </ListItem>
-        </Grid>
-      )}
+    const Button = props => <button type="button" id={props.id} value={props.value} /* className={props.class} */className={`calculator-key ${props.className}`} onClick={props.click}>{props.display}</button>;
+
   return (
-    <Card className={classes.Card} >
-      <Paper className={classes.Test}>
+    <Card>
+      <div className="calculator">
         <Display />
-      </Paper>
- {/*      <CardContent> */}
-        <Grid container >{/* calc */}
-        <List className={classes.List}>
-          <Grid container item>{/* actions  */} 
-            <Button size={3} value="clear" type= 'CLEAR_INPUT' payload= '' />
-            <Button size={3} value="bs" type= 'BACK_SPACE' payload= '' />
-            <Button size={3} value="+/-" type= 'NEGATION' payload= '-' />
-            <Button size={3} value="/" type= 'OPERAND_INPUT' payload= '/' />
-          </Grid>
-          <Grid container item>{/* numbpad */}
-            <Button size={3} value="1" type= 'NUMBER_INPUT' payload= '1' />
-            <Button size={3} value="2" type= 'NUMBER_INPUT' payload= '2' />
-            <Button size={3} value="3" type= 'NUMBER_INPUT' payload= '3' />
-            <Button size={3} value="*" type= 'OPERAND_INPUT' payload= '*' />
-            <Button size={3} value="4" type= 'NUMBER_INPUT' payload= '4' />
-            <Button size={3} value="5" type= 'NUMBER_INPUT' payload= '5' />
-            <Button size={3} value="6" type= 'NUMBER_INPUT' payload= '6' />
-            <Button size={3} value="-" type= 'OPERAND_INPUT' payload= '-' />
-            <Button size={3} value="7" type= 'NUMBER_INPUT' payload= '7' />
-            <Button size={3} value="8" type= 'NUMBER_INPUT' payload= '8' />
-            <Button size={3} value="9" type= 'NUMBER_INPUT' payload= '9' />
-            <Button size={3} value="+" type= 'OPERAND_INPUT' payload= '+' />
-            <Button size={3} value="." type= 'OPERAND_INPUT'payload= '.' />
-            <Button size={3} value="0" type= 'NUMBER_INPUT' payload= '0' />
-            <Button size={6} value="=" type= 'CALCULATE_EXPRESSION' payload='' />
-          </Grid>
-        </List>
-        </Grid>
-{/*       </CardContent> */}
+        <div className="calculator-keypad">
+          <div className="input-keys">
+            <div className="function-keys">
+              <Button id="clear" value="clear" display="AC" className="key-clear" click ={() => dispatch({ type: 'CLEAR_INPUT', payload: ''})}/>
+              <Button id="backspace" value="bs" display="↩" className="backspace" click ={() => dispatch({ type: 'BACK_SPACE', payload: ''})}/>
+              <Button id="sign" value="+/-" display="±" className="key-sign" click={() => dispatch({ type: 'NEGATION', payload: '-'})} />
+            </div>
+            <div className="digit-keys">
+              <Button id="zero" value="0" display="0" className="key-0" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '0'})} />
+              <Button id="decimal" value="." display="." className="key-dot" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '.'})} />
+              <Button id="one" value="1" display="1" className="key-1" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '1'})} />
+              <Button id="two" value="2" display="2" className="key-2" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '2'})} />
+              <Button id="three" value="3" display="3" className="key-3" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '3'})} />
+              <Button id="four" value="4" display="4" className="key-4" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '4'})} />
+              <Button id="five" value="5" display="5" className="key-5" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '5'})} />
+              <Button id="six" value="6" display="6" className="key-6" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '6'})} />
+              <Button id="seven" value="7" display="7" className="key-7" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '7'})} />
+              <Button id="eight" value="8" display="8" className="key-8" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '8'})} />
+              <Button id="nine" value="9" display="9" className="key-9" click={() => dispatch({ type: 'NUMBER_INPUT', payload: '9'})} />
+            </div>
+          </div>
+          <div className="operator-keys">
+            <Button id="divide" value="/" display="÷" className="key-divide" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '/'})} />
+            <Button id="multiply" value="*" display="×" className="key-multiply" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '*'})} />
+            <Button id="subtract" value="-" display="−" className="key-subtract" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '-'})} />
+            <Button id="add" value="+" display="+" className="key-add" click={() => dispatch({ type: 'OPERAND_INPUT', payload: '+'})} />
+            <Button id="equals" value="=" display="=" className="key-equals" click={() => dispatch({ type: 'CALCULATE_EXPRESSION', payload: state})} />
+          </div>
+        </div>
+      </div>
     </Card>
+
   );
 }
 export  {Calculator};
