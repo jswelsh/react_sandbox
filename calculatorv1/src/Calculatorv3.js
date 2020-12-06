@@ -12,13 +12,16 @@ let reducer = (state, action) => {
       if(state.expression.match(/[0-9\.]$/) && !state.expression.includes("=")){
         if(state.expression.match(/[+\-*\/]/) == null){
           let val = state.expression + action.payload;
+
           return {
             display: val,
             expression: val
           };
         } else {
+          let result =  parseFloat(eval(state.expression + action.payload).toFixed(5))
+          //let val = state.expression + action.payload;
           return {
-            display: state.display + '.'+ action.payload,
+            display: result,//state.display + '.'+ action.payload,
             expression: state.expression + action.payload
           };
         }
@@ -29,10 +32,6 @@ let reducer = (state, action) => {
         display: action.payload,
         expression: val
       }; */
-    
-    else if(state.expression.slice(-1) =='.') {
-      console.log('hippo')
-    }
     
     else if(state.expression.match(/[+\-*\/]$/)){
       let result = Number.isInteger(eval(state.expression+action.payload)) ? eval(state.expression+action.payload) : parseFloat(eval(state.expression+action.payload).toFixed(5));
@@ -50,13 +49,15 @@ let reducer = (state, action) => {
     }
 
     case 'OPERAND_INPUT':
-      //console.log((state.expression.slice(-1)).match(/[+\-*\/]$/) && (state.expression.slice(-1)).match(/[+\-*\/]$/).input, 'in here')
-     // console.log(state.expression.slice(-1), 'in here')
-      if((state.expression.slice(-1)).match(/[+\-*\/]$/) && (state.expression.slice(-1)).match(/[+\-*\/]$/).input) {
-        
+      if(state.expression.match(/\.$/)){
+        return {
+          ...state
+        }
+      }
+      //replace operand if clicked consecutively
+      if(state.expression.match(/[+\-*\/]$/)) {
         let val = state.expression.slice(0, -1); 
         val += action.payload;
-        console.log(val)
         return {
           ...state,
           expression:val
@@ -99,8 +100,16 @@ let reducer = (state, action) => {
           };
         } */
       }
+/* 
+      if((state.expression.slice(-1)).match(/[+\-*\/]$/) && (state.expression.slice(-1)).match(/[+\-*\/]$/).input) {
 
-    case 'OPERAND_INPUT':
+
+*/
+/*     case 'OPERAND_INPUT':
+      console.log('yooooo')
+      if(state.expression.slice(-1).match(/\.$/)){
+        console.log('yooooo')
+      }
       if(state.expression == "" || state.expression.includes("=")){
         let val = '0.';
         return {
@@ -118,7 +127,7 @@ let reducer = (state, action) => {
           display: state.display + action.payload,
           expression: state.expression + action.payload
         };
-      }
+      } */
   
 
     case 'CLEAR_INPUT':
