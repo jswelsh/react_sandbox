@@ -12,9 +12,16 @@ let reducer = (state, action) => {
     case 'NEGATION':
 
       if(Number.isSafeInteger(state.display)){
-      return {
-        display:(Math.abs(state.display)*-1),
-        expression: `${(Math.abs(state.display)*-1)}`
+        if(Math.sign(state.display)>0){
+          return {
+            display:(Math.abs(state.display)*-1),
+            expression: `${(Math.abs(state.display)*-1)}`
+          }
+        } else {
+        return {
+          display:(Math.abs(state.display)),
+          expression: `${(Math.abs(state.display))}`
+        }
       }
     }
     case 'NUMBER_INPUT':
