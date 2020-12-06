@@ -137,10 +137,13 @@ let reducer = (state, action) => {
       };
 
     case 'CALCULATE_EXPRESSION':
-/*   let calculate = () => { */
+
+      console.log(typeof state.display, typeof state.expression)
       if(state.expression.includes("=")){
-        let val = `${state.display} = ${state.display}`;
+        console.log('hi')
+        let val = `${state.display}`;
         return {
+          display: val,
           expression: val
         };
       } else if(state.expression != "" && state.expression.match(/[+\-*\/]/) != null && state.expression.match(/[+\-*\/]$/) == null) {
@@ -151,6 +154,10 @@ let reducer = (state, action) => {
           display: result,
           expression: val
         };
+      } else {
+        return {
+          ...state
+        }
       }
     }
   }
