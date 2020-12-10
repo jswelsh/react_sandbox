@@ -84,12 +84,12 @@ const getMenuItems = (props) => {
       leftIcon: <DaschboardIcon />,
     },    
     {
-      value: '/todo',
+      value: '/to_do',
       visible: isAuthorised,
       primaryText: intl.formatMessage({ id: 'todo' }),
       leftIcon: <DaschboardIcon />,
     },
-    {
+   /*  {
       primaryText: intl.formatMessage({ id: 'demos', defaultMessage: 'Demos' }),
       primaryTogglesNestedList: true,
       leftIcon: <Web />,
@@ -102,15 +102,6 @@ const getMenuItems = (props) => {
             defaultMessage: 'Dialog',
           }),
           leftIcon: <ChatBubble />,
-        },
-        {
-          value: '/toast_demo',
-          visible: isAuthorised,
-          primaryText: intl.formatMessage({
-            id: 'toast_demo',
-            defaultMessage: 'Toast',
-          }),
-          leftIcon: <QuestionAnswer />,
         },
         {
           value: '/filter_demo',
@@ -178,7 +169,7 @@ const getMenuItems = (props) => {
           leftIcon: useMiniMode ? <MenuOpenIcon /> : <ChromeReaderMode />,
         },
       ],
-    },
+    }, */
     {
       value: null,
       visible: isAppInstallable && !isAppInstalled,

@@ -12,7 +12,7 @@ const config = {
   routes,
   locale: {
     locales,
-    defaultLocale: parseLanguages(['en', 'de', 'ru'], 'en'),
+    defaultLocale: parseLanguages(['en'], 'en'),
     onError: (e) => {
       //console.warn(e)
 

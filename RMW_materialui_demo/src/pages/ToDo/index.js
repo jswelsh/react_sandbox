@@ -31,7 +31,7 @@ const fields = [
 ]
 
 const Row = ({ index, style, data }) => {
-  const { name, description, createdTime, email } = data
+  const { name, description, createdTime } = data
 
   return (
     <div key={`${name}_${index}`} style={style}>
@@ -69,7 +69,7 @@ export default function () {
 
   return (
     <ListPage
-      name="list_demo"
+      name="to_do"
       list={list}
       fields={fields}
       Row={Row}
@@ -78,8 +78,8 @@ export default function () {
         return {
           pageTitle: intl.formatMessage(
             {
-              id: 'list_page_demo',
-              defaultMessage: 'List Page demo with {count} rows',
+              id: 'to_do',
+              defaultMessage: 'ToDo with {count} rows',
             },
             { count: list.length }
           ),
