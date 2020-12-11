@@ -79,6 +79,7 @@ export default function () {
           pageTitle: intl.formatMessage(
             {
               id: 'to_do',
+              //if the en.js file can't be read this will show
               defaultMessage: 'ToDo with {count} rows',
             },
             { count: list.length }

@@ -31,7 +31,7 @@ const messages = defineMessages({
   Ask a question or show a warning befor deleting something. 
   You can also set the action text to somerhing like "YES, Delete" and run that action by passing a "handleAction" prop. 
   This receives a "handleClose" callback with wich you can close the dialog when your action is done.`,
-  to_do:'to do stuff input here in en.js file',
+  // to_do:'to do stuff input here in en.js file',
   list_page_demo:'List Page demo with {count} rows',
   forgot_password:'Forgot password',
   password_reset:'Password reset',

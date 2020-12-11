@@ -9,13 +9,7 @@ const SignUp = lazy(() => import('../pages/SignUp/SignUp'))
 const PasswordReset = lazy(() => import('../pages/PasswordReset/PasswordReset'))
 const About = lazy(() => import('../pages/About'))
 const Home = lazy(() => import('../pages/Home/Home'))
-const DialogDemo = lazy(() => import('../pages/DialogDemo/DialogDemo'))
-const FilterDemo = lazy(() => import('../pages/FilterDemo'))
-
 const ToDo = lazy(() => import('../pages/ToDo'))
-
-const ListPageDemo = lazy(() => import('../pages/ListPageDemo'))
-const TabsDemo = lazy(() => import('../pages/TabsDemo'))
 
 const routes = [
   <UnauthorizedRoute path="/signin" redirectTo="/" exact component={SignIn} />,
@@ -28,13 +22,7 @@ const routes = [
   />,
   <Route path="/about" exact component={About} />,
   <AuthorizedRoute path="/home" exact component={Home} />,
-  <AuthorizedRoute path="/dialog_demo" exact component={DialogDemo} />,
-  <AuthorizedRoute path="/filter_demo" exact component={FilterDemo} />,
-
   <AuthorizedRoute path="/to_do" exact component={ToDo} />,
-
-  <AuthorizedRoute path="/list_page_demo" exact component={ListPageDemo} />,
-  <AuthorizedRoute path="/tabs_demo" exact component={TabsDemo} />,
 ]
 
 export default routes

@@ -57,27 +57,18 @@ export default function () {
       label: 'Name',
     },
     {
-      name: 'email',
-      label: 'E-Mail',
-    },
-    {
-      name: 'amount',
-      label: 'Amount',
-      type: 'number',
+      name: 'description',
+      label: 'Description',
+      type: 'string'
     },
     {
       name: 'isActive',
-      label: 'Aktive',
+      label: 'Active',
       type: 'bool',
     },
     {
-      name: 'registered',
-      label: 'Registered',
-      type: 'date',
-    },
-    {
-      name: 'registrationTime',
-      label: 'Registration time',
+      name: 'createdTime',
+      label: 'Created time',
       type: 'time',
     },
   ]
