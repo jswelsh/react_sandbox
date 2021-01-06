@@ -1,6 +1,7 @@
 import {useState} from "react"
 import {RestartButton} from "./RestartButton"
 import {Row} from "./Row"
+
 const columns = {
   first:  [0,1,2],
   second: [3,4,5],
@@ -14,10 +15,11 @@ export default function GameBoard() {
   
   const getStatus = () =>(
     winner
-    ? `Winner: ${winner}`
+    // ? winner === 2 ? 'Pickle Rick! wins, when he feels like it' : 'Ah geez, Looks like Lemon Morty won; man.'
+    ? winner === 2 ? 'Pickle Rick wins!' : 'Lemon Morty won!'
     : (isBoardFull(squares))
       ? "Draw!"
-      : `Next player: ${playersTurn}`
+      : playersTurn === 1 ? "Lemon Morty's go" : "Pickle Rick's go"
   )
   return (
   <div className="game">
