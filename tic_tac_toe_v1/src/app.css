@@ -2,6 +2,7 @@ body {
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 40px;
   background: #26a69a;
+  text-align: center;
 }
 
 ol, ul {

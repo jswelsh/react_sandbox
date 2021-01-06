@@ -1,19 +1,13 @@
 import {FC} from 'react'
-import {Square} from "../Square/Square"
+import {Square} from "./Square"
 
-type IRow = {
-  columnsID:number[]
-  setSquares(index:number[]): void
-  squares:number[]
-  setPlayersTurn(player:number): void
-  playersTurn:number
-}
 const Row: FC<IRow> = ({
   columnsID,
   setSquares,
   squares,
   setPlayersTurn,
-  playersTurn
+  playersTurn,
+  winner
 }) => {
   return (
   <div className="board-row">
@@ -24,6 +18,7 @@ const Row: FC<IRow> = ({
         squares={squares}
         setPlayersTurn={setPlayersTurn}
         playersTurn={playersTurn}
+        winner={winner}
       />))}
   </div>
   )
