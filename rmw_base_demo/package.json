@@ -1,0 +1,40 @@
+{
+  "name": "rmw_base_demo",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@formatjs/intl-relativetimeformat": "7.x",
+    "base-shell": "1.x",
+    "intl": "1.x",
+    "intl-locales-supported": "1.x",
+    "react": "17.x",
+    "react-dom": "17.x",
+    "react-intl": "5.x",
+    "react-router-dom": "5.x",
+    "react-scripts": "4.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
