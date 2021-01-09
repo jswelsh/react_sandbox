@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios"
 
 import Todo from "./Todo"
+import { Grid } from "@material-ui/core";
 type ITodo = {
   todoCompleted:boolean
   todoResponsible:string
@@ -34,29 +35,25 @@ export default function TodosList() {
   ) : todos.length ? (
     <div>
       <h3>Todos List</h3>
-      <table className="table table-striped" style={{ marginTop: 20 }}>
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th>Responsibility</th>
-            <th>Priority</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+        <Grid
+          container
+          spacing={2}
+          justify='space-between'
+          direction='row'
+          style={{padding:32}}
+        >
           {todos.map((todo:ITodo) => {
-            return (
-            <Todo
-              key={todo._id}
-              // todoCompleted={todo.todoCompleted}
-              todoResponsible={todo.todoResponsible}
-              todoPriority={todo.todoPriority}
-              todoDesc={todo.todoDesc}
-              _id={todo._id}
-            />)
+          return (
+          <Todo
+            key={todo._id}
+            // todoCompleted={todo.todoCompleted}
+            todoResponsible={todo.todoResponsible}
+            todoPriority={todo.todoPriority}
+            todoDesc={todo.todoDesc}
+            _id={todo._id}  
+          />)
           })}
-        </tbody>
-      </table>
+        </Grid>
     </div>
   ) : (
     <div>There are no Todos yet</div>

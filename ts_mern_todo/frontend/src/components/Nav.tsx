@@ -30,6 +30,9 @@ const Nav = () => {
           // startIcon={}
           color="inherit"
           />
+          <Typography style={{alignSelf:'center'}}>
+            HELLO
+          </Typography>
       <div className={classes.toolbarButtons}>
         <Button
           children='create'

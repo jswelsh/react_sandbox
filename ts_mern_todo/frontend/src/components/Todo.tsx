@@ -1,3 +1,4 @@
+import { Grid, Paper, Typography, Button } from '@material-ui/core'
 import {FC} from 'react'
 import { Link } from "react-router-dom"
 
@@ -18,19 +19,42 @@ const Todo: FC<ITodo> = ({
 }) => {
 
   return (
-    <tr>
-      <td>{todoDesc}</td>
-      <td>
-        {todoResponsible}
-      </td>
-      <td>
-        {todoPriority}
-      </td>
-      <td>
-        <Link to={`/edit/${_id}`}>Edit</Link>
-      </td>
-    </tr>
-  );
+  <Grid item xs={12} sm={6} md={4} lg={3}>
+    <Paper>
+      <Grid
+      style={{height:200, padding:16}}
+      container
+      direction="column"
+      justify="space-between"
+      alignItems="flex-start">
+      <Grid item>
+        <Typography
+          children={todoResponsible}
+          variant={'h5'}/>
+      </Grid>
+      <Grid item>
+        <Typography
+          children={todoDesc}
+          variant='body1'/>
+      </Grid>
+
+        <Grid item container justify='space-between'>
+        <Button
+          size='large'
+          color='primary'
+          disabled
+          children={'Priority: '+todoPriority}/>
+        <Button
+          size='large'
+          color='primary'
+          component={Link}
+          to={`/edit/${_id}`}
+          children='Edit'/>
+        </Grid>
+      </Grid>
+    </Paper>
+  </Grid>
+  )
 }
 export default Todo
 
