@@ -16,7 +16,7 @@ const Todo: FC<ITodo> = ({
   todoDesc,
   _id
 }) => {
-  console.log(_id)
+
   return (
     <tr>
       <td>{todoDesc}</td>

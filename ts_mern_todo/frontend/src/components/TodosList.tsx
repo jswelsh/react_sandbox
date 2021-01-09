@@ -45,7 +45,6 @@ export default function TodosList() {
         </thead>
         <tbody>
           {todos.map((todo:ITodo) => {
-            console.log(todo)
             return (
             <Todo
               key={todo._id}

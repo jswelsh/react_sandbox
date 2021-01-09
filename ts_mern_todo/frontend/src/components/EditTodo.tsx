@@ -1,14 +1,18 @@
-import {FC} from 'react'
+import React,{FC} from 'react'
 import { useState, useEffect } from "react"
+// import { makeStyles } from '@material-ui/core/styles'
 
 import axios from "axios"
 import {
-  FormLabel,
-  FormControl,
-  RadioGroup,
+  Checkbox,
   FormControlLabel,
-  Radio
+  Button,
+  Paper, Typography, TextField, Slider, Container, Grid, FormControl
 } from '@material-ui/core'
+/*
+const useStyles = makeStyles({
+
+}) */
 
 type IEditTodo = {
   match:{
@@ -20,12 +24,14 @@ type IEditTodo = {
 }
 
 const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [todoDesc, setTodoDesc] = useState<string>("");
-  const [todoResponsible, setTodoResponsible] = useState<string>("");
-  const [todoPriority, setTodoPriority] = useState<string>("low");
-  const [todoCompleted, setTodoCompleted] = useState<boolean>(false);
-  console.log(id)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [todoDesc, setTodoDesc] = useState<string>("")
+  const [todoResponsible, setTodoResponsible] = useState<string>("")
+  const [todoPriority, setTodoPriority] = useState<string>("")
+  const [todoCompleted, setTodoCompleted] = useState<boolean>()
+
+  // const classes = useStyles()
+
   useEffect(() => {
     axios
       .get(`http://localhost:4000/todos/${id}`)
@@ -36,6 +42,7 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
           todoPriority,
           todoResponsible
         } = res.data;
+        console.log(todoCompleted)
         setTodoCompleted(todoCompleted);
         setTodoDesc(todoDesc);
         setTodoPriority(todoPriority);
@@ -47,8 +54,8 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
       });
   }, [id]);
 
-  const onSubmit = (e:any) => {
-    e.preventDefault();
+  const onSubmit = () => {
+    console.log('yo',todoCompleted)
 
     const newTodo = {
       todoDesc,
@@ -69,81 +76,109 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
       .post(`http://localhost:4000/todos/delete/${id}`)
       .then(res => console.log(res.data))
       .then(() => history.push("/"));
-  };
-
+  }
+  const marks = [
+    {
+      value: 1,
+      label: 'Low',
+    },
+    {
+      value: 2,
+      label: 'Medium',
+    },
+    {
+      value: 3,
+      label: 'High',
+    }
+  ];
   return !isLoading ? (
-    <div style={{ marginTop: 20 }}>
-      <h3>Edit Todo</h3>
-      <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label>Description: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={todoDesc}
-            onChange={e => setTodoDesc(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label>Responsible: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={todoResponsible}
-            onChange={e => setTodoResponsible(e.target.value)}
-          />
-        </div>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">labelPlacement</FormLabel>
-          <RadioGroup row aria-label="position" name="position" defaultValue={todoPriority}>
-            <FormControlLabel
-              value="low"
-              control={<Radio color="primary" />}
-              label="Low"
-              labelPlacement="end"
-            />
-            <FormControlLabel
-              value="medium"
-              control={<Radio color="primary" />}
-              label="Medium"
-              labelPlacement="end"
-            />
-            <FormControlLabel
-              value="high"
-              control={<Radio color="primary" />}
-              label="High"
-              labelPlacement="end"
-            />
-          </RadioGroup>
-        </FormControl>
-        <div className="form-check form-check-inline">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            name="completedCheckbox"
-            id="completedCheckbox"
-            // value={todoCompleted}
+    <Container style={{ 'margin':'auto' }} maxWidth="sm">
+    <Paper style={{marginTop:48}}>
+      <Grid container justify='space-between' style={{padding:24}}>
+        <Typography
+          children='Edit Todo'
+          variant='h3'
+          
+        />
+        <FormControlLabel
+          label="Completed"
+          labelPlacement="end"
+          control={
+          <Checkbox
             checked={todoCompleted}
-            onChange={e => setTodoCompleted(!todoCompleted)}
-          />
-          <label htmlFor="completedCheckbox" className="form-check-label">
-            Completed
-          </label>
-        </div>
-        <br />
-        <br />
-        <div className="form-group">
-          <input type="submit" className="btn btn-primary" value="Edit Todo" />
-
-          <input
-            type="button"
-            className="btn btn-danger float-right"
-            value="Delete Todo"
-            onClick={deleteTodo}
-          />
-        </div>
-      </form>
-    </div>
+            onChange={() => setTodoCompleted(!todoCompleted)}
+            color="primary"/>}
+        />
+      </Grid>
+      <Container maxWidth='xs'>
+      <TextField
+        label="Responsible:"
+        value={todoResponsible}
+        onChange={e => setTodoResponsible(e.target.value)}
+        id="standard-full-width"
+        placeholder="Who needs to do it?"
+        // fullWidth
+        margin="normal"
+        InputLabelProps={{
+          shrink: true
+        }}
+      />
+        <TextField
+          label="Description:"
+          value={todoDesc}
+          onChange={e => setTodoDesc(e.target.value)}
+          fullWidth
+          id="standard-full-width"
+          placeholder="What do you need todo?"
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      </Container>
+      <Container maxWidth="xs">
+      <Typography id="discrete-slider" gutterBottom>
+        Priority
+      </Typography>
+      <Slider
+        defaultValue={1}
+        value={
+          todoPriority === 'High'?
+          3 :
+          todoPriority === 'Medium' ?
+          2
+          : 1}
+        aria-labelledby="discrete-slider"
+        valueLabelDisplay="auto"
+        onChange={(event,value) => setTodoPriority(
+          (value === 3) ?
+          'High':
+          (value === 2) ?
+          'Medium'
+          : 'Low')}
+        step={1}
+        marks={marks}
+        min={1}
+        max={3}
+      />
+      </Container>
+    
+      <Grid container justify='space-evenly' style={{padding:24}}>
+        <Button
+          children='Submit Todo'
+          variant="contained"
+          onClick={onSubmit}
+          color="default"
+        />
+        <Button
+          children='Delete Todo'
+          variant="contained"
+          onClick={deleteTodo}
+          color="default"
+        />
+      </Grid>
+      </Paper>
+      </Container>
   ) : (
     <div>Getting Todo</div>
   );
