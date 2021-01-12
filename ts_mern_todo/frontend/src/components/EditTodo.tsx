@@ -1,5 +1,10 @@
 import {FC} from 'react'
 import { useState, useEffect } from "react"
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  DateTimePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers'
 
 import axios from "axios"
 import {
@@ -24,6 +29,7 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
   const [todoResponsible, setTodoResponsible] = useState<string>("")
   const [todoPriority, setTodoPriority] = useState<string>("")
   const [todoCompleted, setTodoCompleted] = useState<boolean>()
+  const [selectedDate, handleDateChange] = useState<Date | null>(new Date())
 
   useEffect(() => {
     axios
@@ -83,6 +89,7 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
     }
   ]
   return !isLoading ? (
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
     <Container style={{ 'margin':'auto' }} maxWidth="sm">
     <Paper style={{marginTop:48}}>
       <Grid container justify='space-between' style={{padding:24}}>
@@ -151,6 +158,7 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
         min={1}
         max={3}
       />
+      <DateTimePicker value={selectedDate} onChange={handleDateChange} />
       </Container>
     
       <Grid container justify='space-evenly' style={{padding:24}}>
@@ -168,7 +176,8 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
         />
       </Grid>
       </Paper>
-      </Container>
+    </Container>
+  </MuiPickersUtilsProvider>
   ) : (
     <div>Getting Todo</div>
   )
