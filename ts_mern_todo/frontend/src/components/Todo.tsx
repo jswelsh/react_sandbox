@@ -57,7 +57,3 @@ const Todo: FC<ITodo> = ({
   )
 }
 export default Todo
-
-/*  className={todoCompleted ? "completed" : ""}
-className={todoCompleted ? "completed" : ""}
-className={todoCompleted ? "completed" : ""} */

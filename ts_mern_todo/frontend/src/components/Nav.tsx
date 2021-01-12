@@ -1,10 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { /* useLocation */Link } from "react-router-dom"
+import MenuIcon from '@material-ui/icons/Menu'
+
+import { useLocation, Link } from "react-router-dom"
 import {
   Button,
   AppBar,
   Toolbar,
-  Typography
+  Typography,
+  IconButton
 } from '@material-ui/core'
 
 const useStyles = makeStyles(() => ({
@@ -15,23 +18,29 @@ const useStyles = makeStyles(() => ({
 
 const Nav = () => {
   const classes = useStyles()
-  // const location = useLocation()
-  
+  const {pathname} = useLocation()
+  {/* <Typography
+            children='MERN Todo'
+            variant="h6"/> */}
+
+            console.log(pathname.slice(0, 3))
   return (
   <AppBar position="static" color="primary">
     <Toolbar>
-        <Button
+        <IconButton
+          edge="start"
           children={
-          <Typography
-            children='MERN Todo'
-            variant="h6"/>}
+            <MenuIcon />
+          }
           component={Link}
           to={'/'}
           // startIcon={}
           color="inherit"
           />
           <Typography style={{alignSelf:'center'}}>
-            HELLO
+            {pathname.slice(0, 6) === '/' && "Todo List" }
+            {pathname.slice(0, 6) === '/creat' && "Create Todo"}
+            {pathname.slice(0, 6) === '/edit/' && "Edit Todo"}
           </Typography>
       <div className={classes.toolbarButtons}>
         <Button

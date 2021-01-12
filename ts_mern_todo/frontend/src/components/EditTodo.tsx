@@ -1,6 +1,5 @@
-import React,{FC} from 'react'
+import {FC} from 'react'
 import { useState, useEffect } from "react"
-// import { makeStyles } from '@material-ui/core/styles'
 
 import axios from "axios"
 import {
@@ -9,10 +8,6 @@ import {
   Button,
   Paper, Typography, TextField, Slider, Container, Grid, FormControl
 } from '@material-ui/core'
-/*
-const useStyles = makeStyles({
-
-}) */
 
 type IEditTodo = {
   match:{
@@ -30,8 +25,6 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
   const [todoPriority, setTodoPriority] = useState<string>("")
   const [todoCompleted, setTodoCompleted] = useState<boolean>()
 
-  // const classes = useStyles()
-
   useEffect(() => {
     axios
       .get(`http://localhost:4000/todos/${id}`)
@@ -41,28 +34,26 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
           todoDesc,
           todoPriority,
           todoResponsible
-        } = res.data;
+        } = res.data
         console.log(todoCompleted)
-        setTodoCompleted(todoCompleted);
-        setTodoDesc(todoDesc);
-        setTodoPriority(todoPriority);
-        setTodoResponsible(todoResponsible);
+        setTodoCompleted(todoCompleted)
+        setTodoDesc(todoDesc)
+        setTodoPriority(todoPriority)
+        setTodoResponsible(todoResponsible)
       })
       .then(() => setIsLoading(false))
       .catch(err => {
-        console.log(err);
-      });
-  }, [id]);
+        console.log(err)
+      })
+  }, [id])
 
   const onSubmit = () => {
-    console.log('yo',todoCompleted)
-
     const newTodo = {
       todoDesc,
       todoResponsible,
       todoPriority,
       todoCompleted
-    };
+    }
 
     axios
       .post(`http://localhost:4000/todos/update/${id}`, newTodo)
@@ -90,7 +81,7 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
       value: 3,
       label: 'High',
     }
-  ];
+  ]
   return !isLoading ? (
     <Container style={{ 'margin':'auto' }} maxWidth="sm">
     <Paper style={{marginTop:48}}>
@@ -117,7 +108,6 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
         onChange={e => setTodoResponsible(e.target.value)}
         id="standard-full-width"
         placeholder="Who needs to do it?"
-        // fullWidth
         margin="normal"
         InputLabelProps={{
           shrink: true
@@ -181,7 +171,7 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
       </Container>
   ) : (
     <div>Getting Todo</div>
-  );
+  )
 }
 
 export default EditTodo
