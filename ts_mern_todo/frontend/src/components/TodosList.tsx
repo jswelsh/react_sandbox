@@ -8,6 +8,7 @@ type ITodo = {
   todoResponsible:string
   todoPriority:string
   todoDesc:string
+  dueDate:Date
   _id:string
 }
 export default function TodosList() {
@@ -50,6 +51,7 @@ export default function TodosList() {
             todoResponsible={todo.todoResponsible}
             todoPriority={todo.todoPriority}
             todoDesc={todo.todoDesc}
+            dueDate={todo.dueDate}
             _id={todo._id}  
           />)
           })}

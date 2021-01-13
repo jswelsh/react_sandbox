@@ -7,6 +7,7 @@ type ITodo = {
   todoResponsible:string
   todoPriority:string
   todoDesc:string
+  dueDate:Date
   _id:string
 }
 
@@ -15,9 +16,10 @@ const Todo: FC<ITodo> = ({
   // todoCompleted,
   todoPriority,
   todoDesc,
+  dueDate,
   _id
 }) => {
-
+  console.log(dueDate)
   return (
   <Grid item xs={12} sm={6} md={4} lg={3}>
     <Paper>
@@ -27,9 +29,12 @@ const Todo: FC<ITodo> = ({
       direction="column"
       justify="space-between"
       alignItems="flex-start">
-      <Grid item>
+      <Grid container item justify='space-between'>
         <Typography
           children={todoResponsible}
+          variant={'h5'}/>
+        <Typography
+          children={dueDate}
           variant={'h5'}/>
       </Grid>
       <Grid item>

@@ -1,4 +1,11 @@
-import { useState, FC } from "react"
+import { useState, FC } from 'react'
+import DateFnsUtils from '@date-io/date-fns'
+
+import {
+  DateTimePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers'
+
 import axios from "axios"
 import {
   Container,
@@ -29,19 +36,20 @@ const marks = [
 ]
 
 const CreateTodo: FC<ICreateTodo> = ({ history }) => {
-  const [todoDesc, setTodoDesc] = useState("");
-  const [todoResponsible, setTodoResponsible] = useState("");
-  const [todoPriority, setTodoPriority] = useState("");
+  const [todoDesc, setTodoDesc] = useState("")
+  const [todoResponsible, setTodoResponsible] = useState("")
+  const [todoPriority, setTodoPriority] = useState("")
+  const [dueDate, setDueDate] = useState<Date | null>(new Date())
+
   const todoCompleted = false;
 
-  const onSubmit = (e:any) => {
-    e.preventDefault();
-
+  const onSubmit = () => {
     const newTodo = {
       todoDesc,
       todoResponsible,
       todoPriority,
-      todoCompleted
+      todoCompleted,
+      dueDate
     }
 
     axios
@@ -51,6 +59,7 @@ const CreateTodo: FC<ICreateTodo> = ({ history }) => {
   }
 
   return (
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
     <Container style={{ 'margin':'auto' }} maxWidth="sm">
     <Paper style={{marginTop:48}}>
       <Grid container justify='space-between' style={{padding:24}}>
@@ -110,6 +119,7 @@ const CreateTodo: FC<ICreateTodo> = ({ history }) => {
         min={1}
         max={3}
       />
+      <DateTimePicker value={dueDate} onChange={setDueDate} />
       </Container>
     
       <Grid container justify='space-evenly' style={{padding:24}}>
@@ -122,6 +132,8 @@ const CreateTodo: FC<ICreateTodo> = ({ history }) => {
       </Grid>
       </Paper>
     </Container>
+  </MuiPickersUtilsProvider>
+  
    /*  <div style={{ marginTop: 20 }}>
       <h3>Create Todo</h3>
       <form onSubmit={onSubmit}>

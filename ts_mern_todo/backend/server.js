@@ -71,12 +71,14 @@ todoRoutes.route("/update/:id").post(function(req, res) {
         todoDesc,
         todoCompleted,
         todoResponsible,
-        todoPriority
+        todoPriority,
+        dueDate
       } = req.body;
       todo.todoDesc = todoDesc;
       todo.todoCompleted = todoCompleted;
       todo.todoResponsible = todoResponsible;
       todo.todoPriority = todoPriority;
+      todo.dueDate = dueDate;
       todo.save((err, todo) => {
         if (err) {
           console.log(err);

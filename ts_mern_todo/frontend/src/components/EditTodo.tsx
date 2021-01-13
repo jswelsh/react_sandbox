@@ -1,6 +1,6 @@
-import {FC} from 'react'
-import { useState, useEffect } from "react"
-import DateFnsUtils from '@date-io/date-fns';
+import { useEffect, useState, FC } from 'react'
+import DateFnsUtils from '@date-io/date-fns'
+
 import {
   DateTimePicker,
   MuiPickersUtilsProvider,
@@ -29,8 +29,9 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
   const [todoResponsible, setTodoResponsible] = useState<string>("")
   const [todoPriority, setTodoPriority] = useState<string>("")
   const [todoCompleted, setTodoCompleted] = useState<boolean>()
-  const [selectedDate, handleDateChange] = useState<Date | null>(new Date())
+  const [dueDate, setDueDate] = useState<Date | null>(new Date())
 
+console.log(typeof dueDate, dueDate)
   useEffect(() => {
     axios
       .get(`http://localhost:4000/todos/${id}`)
@@ -39,13 +40,15 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
           todoCompleted,
           todoDesc,
           todoPriority,
-          todoResponsible
+          todoResponsible,
+          dueDate
         } = res.data
-        console.log(todoCompleted)
+
         setTodoCompleted(todoCompleted)
         setTodoDesc(todoDesc)
         setTodoPriority(todoPriority)
         setTodoResponsible(todoResponsible)
+        setDueDate(new Date(dueDate))
       })
       .then(() => setIsLoading(false))
       .catch(err => {
@@ -58,7 +61,8 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
       todoDesc,
       todoResponsible,
       todoPriority,
-      todoCompleted
+      todoCompleted,
+      dueDate
     }
 
     axios
@@ -120,6 +124,8 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
           shrink: true
         }}
       />
+      <DateTimePicker value={dueDate} onChange={e => console.log(typeof e)} />
+
         <TextField
           label="Description:"
           value={todoDesc}
@@ -158,7 +164,6 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
         min={1}
         max={3}
       />
-      <DateTimePicker value={selectedDate} onChange={handleDateChange} />
       </Container>
     
       <Grid container justify='space-evenly' style={{padding:24}}>

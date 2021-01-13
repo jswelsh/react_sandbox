@@ -13,6 +13,9 @@ let Todo = new Schema({
   },
   todoCompleted: {
     type: Boolean
+  },
+  dueDate: {
+    type: Date
   }
 });
 
