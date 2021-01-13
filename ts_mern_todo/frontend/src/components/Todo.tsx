@@ -7,7 +7,7 @@ type ITodo = {
   todoResponsible:string
   todoPriority:string
   todoDesc:string
-  dueDate:Date
+  dueDate:string
   _id:string
 }
 
@@ -19,7 +19,6 @@ const Todo: FC<ITodo> = ({
   dueDate,
   _id
 }) => {
-  console.log(dueDate)
   return (
   <Grid item xs={12} sm={6} md={4} lg={3}>
     <Paper>
@@ -34,7 +33,7 @@ const Todo: FC<ITodo> = ({
           children={todoResponsible}
           variant={'h5'}/>
         <Typography
-          children={dueDate}
+          children={dueDate.slice(0,10)}
           variant={'h5'}/>
       </Grid>
       <Grid item>

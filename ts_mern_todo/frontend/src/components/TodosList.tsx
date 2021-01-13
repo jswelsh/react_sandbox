@@ -8,7 +8,7 @@ type ITodo = {
   todoResponsible:string
   todoPriority:string
   todoDesc:string
-  dueDate:Date
+  dueDate:string
   _id:string
 }
 export default function TodosList() {
@@ -44,8 +44,9 @@ export default function TodosList() {
           style={{padding:32}}
         >
           {todos.map((todo:ITodo) => {
+            // console.log(typeof todo.dueDate)
           return (
-          <Todo
+            <Todo
             key={todo._id}
             // todoCompleted={todo.todoCompleted}
             todoResponsible={todo.todoResponsible}
