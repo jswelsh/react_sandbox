@@ -31,7 +31,6 @@ const EditTodo: FC<IEditTodo> = ({ match: {params: {id}}, history }) => {
   const [todoCompleted, setTodoCompleted] = useState<boolean>()
   const [dueDate, setDueDate] = useState<Date | null>(new Date())
 
-console.log(typeof dueDate, dueDate)
   useEffect(() => {
     axios
       .get(`http://localhost:4000/todos/${id}`)
@@ -43,7 +42,6 @@ console.log(typeof dueDate, dueDate)
           todoResponsible,
           dueDate
         } = res.data
-
         setTodoCompleted(todoCompleted)
         setTodoDesc(todoDesc)
         setTodoPriority(todoPriority)
@@ -56,7 +54,8 @@ console.log(typeof dueDate, dueDate)
       })
   }, [id])
 
-  const onSubmit = () => {
+  const onSubmit = (e:any) => {
+    e.preventDefault()
     const newTodo = {
       todoDesc,
       todoResponsible,
@@ -68,7 +67,7 @@ console.log(typeof dueDate, dueDate)
     axios
       .post(`http://localhost:4000/todos/update/${id}`, newTodo)
       .then(res => console.log(res.data))
-      .then(() => history.push("/"));
+      .then(() => history.push("/"))
   };
 
   const deleteTodo = (e:any) => {
@@ -76,7 +75,7 @@ console.log(typeof dueDate, dueDate)
     axios
       .post(`http://localhost:4000/todos/delete/${id}`)
       .then(res => console.log(res.data))
-      .then(() => history.push("/"));
+      .then(() => history.push("/"))
   }
   const marks = [
     {
@@ -124,7 +123,7 @@ console.log(typeof dueDate, dueDate)
           shrink: true
         }}
       />
-      <DateTimePicker value={dueDate} onChange={e => console.log(typeof e)} />
+      <DateTimePicker value={dueDate} onChange={setDueDate} />
 
         <TextField
           label="Description:"
