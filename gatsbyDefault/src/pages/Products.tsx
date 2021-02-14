@@ -1,75 +1,54 @@
 // If you don't want to use TypeScript you can delete this file!
 import React, { useEffect, useRef, useState } from "react"
 import { PageProps, Link, graphql } from "gatsby"
+import { makeStyles } from '@material-ui/core/styles';
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { Box, Typography } from "@material-ui/core"
+import { Box, Container, Divider, Typography } from "@material-ui/core"
 
-/* type DataProps = {
-  site: {
-    buildTime: string
-  }
-} */
-/* const useIntersect = ({root = null, rootMargin, threshold = 0}) => {
-  const [entry, updateEntry] = useState({})
-  const [node, setNode] = useState(null)
-  const observer = useRef(null)
+const useStyles = makeStyles((theme) => ({
+}));
+function useOnScreen(ref) {
+
+  const [isIntersecting, setIntersecting] = useState(false)
+
+  const observer = new IntersectionObserver(
+    ([entry]) => setIntersecting(entry.isIntersecting)
+  )
 
   useEffect(() => {
-    if (observer.current) observer.current.disconnect()
-    observer.current = new window.IntersectionObserver(
-      ([entry]) => updateEntry(entry),
-      {
-        root,
-        rootMargin,
-        threshold
-      }
-    )
-    const { current:currentObserver} = observer
-    if (node) currentObserver.observe(node)
-    return () => currentObserver.disconnect()
-  },[node, root, rootMargin, threshold]
-  )
-  return [setNode, entry]
-} */
-// const buildThresholdArray = () => Array.from(Array(100).keys(), i => i / 100);
+    observer.observe(ref.current)
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
+
+  return isIntersecting
+}
 
 const Products/* : React.FC<PageProps<DataProps>>  */= (/* { data, path } */) => {
-  const ref = useRef();
+  const ref = useRef()
+  const classes = useStyles();
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        console.log(entry);
-
-        if (entry.isIntersecting) {
-          //do your actions here
-          console.log('It works!')
-        }
-      },
-      {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.1
-      }
-    );
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-  }, [ref]);
-
+  const onScreen = useOnScreen(ref)
+  const allowedProps = { ref }
   return (
-  <Layout>
+  <Layout test={onScreen}>
     <SEO title="Products" />
-    <Box style={{background:"#00F08E", height:"400px"}}>
+    <Box {...allowedProps } style={{background:"#00F08E", height:"400px", display:"flex", alignItems:'center'}}>
+      <Container maxWidth="sm" component="main" /* className={classes.heroContent} */>
+        <Typography variant='subtitle1'>Tech solutions</Typography>
+        <Divider/>
+        <Typography variant='h1' align="center">LO·FI</Typography>
+      </Container>
+
     </Box>
-    <Typography variant='h1'>Products</Typography>
+    {/* {onScreen && "I'm on screen!"} */}
     <Typography variant='h1'>Products</Typography>
     <Typography variant='h1'>Products</Typography>
     <Typography
       variant='h1'
-
       >
       {/* intersectionRatio: {ref} */}
 
@@ -81,11 +60,9 @@ const Products/* : React.FC<PageProps<DataProps>>  */= (/* { data, path } */) =>
 
 
 
-    <div className="Section-item" ref={ref} id="secondItem">
-        yoooo
-      </div>
     <Typography variant='h1'>Products</Typography>
     <Typography variant='h1'>Products</Typography>
+      <div className="Section-item" id="secondItem"></div>
     <Typography variant='h1'>Products</Typography>
 
     <Typography variant='h1'>Products</Typography>

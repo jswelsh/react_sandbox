@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
+    background: props => !props ? "#fafafa" :"#00F08E"
   },
   toolbar: {
     flexWrap: 'wrap',
@@ -66,44 +67,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const Layout = ({ children }) => {
-  const classes = useStyles();
+const Layout = ({ test, children }) => {
+  const classes = useStyles(test);
+  console.log("test",test);
 
-/*   const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
- */
   return (
-/*     <>
-      <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
-      >
-        <main>{children}</main>
-        <footer
-          style={{
-            marginTop: `2rem`,
-          }}
-        >
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.com">Gatsby</a>
-        </footer>
-      </div>
-    </> */
     <>
     <CssBaseline />
-    <AppBar position="sticky" color="default" elevation={0} className={classes.appBar}>
+    <AppBar position="sticky"/*  color="default" */ elevation={0} className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
           Lofi
