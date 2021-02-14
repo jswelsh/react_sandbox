@@ -7,24 +7,25 @@ const todoRoutes = express.Router()
 const PORT = 4000
 let Todo = require("./todo.model")
 
-const MongoClient = require('mongodb').MongoClient
+/* const MongoClient = require('mongodb').MongoClient
 const uri = "mongodb+srv://admin:<password>@cluster0.iaykh.mongodb.net/<dbname>?retryWrites=true&w=majority"
-const client = new MongoClient(uri, { useNewUrlParser: true })
+const client = new MongoClient(uri, { useNewUrlParser: true }) */
 
 app.use(cors())
 app.use(bodyParser.json())
 
 
 
-client.connect(err => {
+/* client.connect(err => {
   const collection = client.db("test").collection("devices")
   // perform actions on the collection object
   client.close()
 });
+ */
 
+/* TckjxDTGkMQ9ju54 */
 
-
-
+mongoose.connect("mongodb+srv://admin:TckjxDTGkMQ9ju54@cluster0.yftfc.mongodb.net/mernTodo?retryWrites=true&w=majority/todos", { useNewUrlParser: true })
 
 // mongoose.connect("mongodb://127.0.0.1:27017/todos", { useNewUrlParser: true })
 const connection = mongoose.connection;
@@ -35,45 +36,41 @@ connection.once("open", function() {
 
 todoRoutes.route("/").get(function(req, res) {
   Todo.find(function(err, todos) {
-    if (err) {
+/*     if (err) {
       console.log(err);
-    } else {
+    } else {} */
       res.json(todos);
-    }
   });
 });
 
 todoRoutes.route("/:id").get(function(req, res) {
   let id = req.params.id;
   Todo.findById(id, function(err, todo) {
-    if (err) {
+/*     if (err) {
       console.log(err);
-    } else {
+    } else {} */
       res.json(todo);
-    }
   });
 });
 
 todoRoutes.route("/add").post(function(req, res) {
   let todo = new Todo(req.body);
   todo.save((err, todo) => {
-    if (err) {
+/*     if (err) {
       console.log(err);
       res.status(400).send("adding todo failed");
-    } else {
-      res.status(200).json({ todo: "todo added" });
-    }
+    } else {} */
+    res.status(200).json({ todo: "todo added" });
   });
 });
 
 todoRoutes.route("/delete/:id").post(function(req, res) {
   Todo.deleteOne({ _id: req.params.id }, err => {
-    if (err) {
+/*     if (err) {
       console.log(err);
       res.status(400).send("deleting todo failed");
-    } else {
+    } else {} */
       res.status(200).json({ todo: "todo deleted" });
-    }
   });
 });
 
@@ -95,12 +92,11 @@ todoRoutes.route("/update/:id").post(function(req, res) {
       todo.todoPriority = todoPriority;
       todo.dueDate = dueDate;
       todo.save((err, todo) => {
-        if (err) {
+/*         if (err) {
           console.log(err);
           res.status(400).send("updating todo failed");
-        } else {
+        } else {} */
           res.status(200).json({ todo: "todo updated" });
-        }
       });
     }
   });

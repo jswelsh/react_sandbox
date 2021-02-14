@@ -39,6 +39,7 @@ export default function TodosList() {
         </thead>
         <tbody>
           {todos.map(todo => {
+            // console.log(todo)
             return <Todo key={todo._id} todo={todo} />;
           })}
         </tbody>

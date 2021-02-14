@@ -25,11 +25,11 @@ const Square: FC<ISquare> = ({
     key={id}
     onClick={onClick}>
     {squares[id] === 1
-      ? <SvgMortyLemon /> :
+    ? <SvgMortyLemon /> :
       squares[id] === 2
-        ? <SvgRickPickle />
+      ? <SvgRickPickle />
         : null}
   </button>
   )
 }
-export {Square} 
+export {Square}
