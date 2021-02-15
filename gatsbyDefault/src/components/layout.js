@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
-    background: props => !props ? "#fafafa" :"#00F08E"
+    background: props => !props ? "#fafafa" : '#00af69'/* "#00F08E" */
   },
   toolbar: {
     flexWrap: 'wrap',
@@ -69,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Layout = ({ test, children }) => {
   const classes = useStyles(test);
-  console.log("test",test);
 
   return (
     <>
@@ -80,23 +79,14 @@ const Layout = ({ test, children }) => {
           Lofi
         </Typography>
         <nav>
-          <Link 
-              className={classes.link}
-              to="/Products/">
-            <LinkMui
-              variant="button"
-              color="textPrimary"
-              children='Products'/>
-            </Link>
-{/*           <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-            Features
+          <Link
+            className={classes.link}
+            to="/Products/">
+          <LinkMui
+            variant="button"
+            color="textPrimary"
+            children='Products'/>
           </Link>
-          <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-            Enterprise
-          </Link>
-          <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-            Support
-          </Link> */}
         </nav>
         <Button href="#" color="primary" variant="outlined" className={classes.link}>
           Login
