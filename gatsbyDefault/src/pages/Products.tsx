@@ -6,6 +6,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { Box, Container, Divider, List, ListItem, ListItemText, Slide, Typography } from "@material-ui/core"
 import Img from "gatsby-image"
+import clsx from  'clsx'
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -30,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       transform: "translate(0px, -310px)"
     }
+  },
+  heroImageOverlay: {
+    zIndex:1,
+    alignSelf: 'flex-start'
   },
   productSection: {
     paddingTop: theme.spacing(3),
@@ -79,26 +84,30 @@ const useStyles = makeStyles((theme) => ({
     }
     // borderBottom:'solid 15px #00af69',
   },
+  Primary: {
+    color:'#00af69'
+  },
+  Divider: {
+    background: '#00af69'
+  },
   productItem: {
     padding: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
       maxWidth: '520px'
     }
   },
-  fromLeft: {
+  ListItem: {
     minWidth:'300px',
     maxWidth: '1200px',
     display:'flex',
     flexDirection:'column',
+  },
+  fromLeft: {
     [theme.breakpoints.up('md')]: {
       flexDirection:'row',
     }
   },
   fromRight: {
-    minWidth:'300px',
-    maxWidth: '1200px',
-    display:'flex',
-    flexDirection:'column',
     [theme.breakpoints.up('md')]: {
       flexDirection:'row-reverse',
     }
@@ -117,8 +126,7 @@ function useOnScreen(ref) {
   const [isIntersecting, setIntersecting] = useState(false)
 
   const observer = new IntersectionObserver(
-    ([entry]) => setIntersecting(entry.isIntersecting)/* ,
-    options */
+    ([entry]) => setIntersecting(entry.isIntersecting)
   )
   useEffect(() => {
     observer.observe(ref.current)
@@ -131,7 +139,7 @@ function useOnScreen(ref) {
 
 const query = graphql`
   query {
-    placeholderImage: file(relativePath: { eq: "016.jpg" }) {
+    placeholderImage: file(relativePath: { eq: "016v2.png" }) {
       childImageSharp {
         fluid(maxWidth: 1080) {
           ...GatsbyImageSharpFluid
@@ -147,6 +155,92 @@ const query = graphql`
     }
   }
 `
+/* const ProductSubTitle = ({direction, primaryText}) => {
+  const [isVisible, setVisible] = useState(false);
+  const classes = useStyles();
+
+  const options = {
+    rootMargin: '100px 0px 100px 0px',
+    threshold: 1
+  }
+  const domRef = useRef();
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        console.log(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setVisible(true)
+          observer.unobserve(domRef.current);
+        }
+      })
+    }, options);
+    observer.observe(domRef.current);
+    return () => observer.unobserve(domRef.current)// clean up
+  }, []);
+
+  return (
+  <div ref={domRef} style={{minHeight:'300px', padding:64}}>
+    <Slide direction={direction} in={isVisible} mountOnEnter timeout={800} >
+      <Typography
+        variant='h3'
+        style={{textTransform: 'uppercase', display:'inline'}}
+        children={primaryText}
+      />
+    </Slide>
+    <Divider className={classes.Divider} />
+  </div>
+  )
+}
+ */
+
+
+
+
+
+
+const ProductSubTitle = ({emphasis = false, direction, primaryText, /* secondaryText */ domRef}) => {
+  const [isVisible, setVisible] = useState(false);
+  const classes = useStyles();
+
+  const options = {
+    rootMargin: '100px 0px 100px 0px',
+    threshold: 1
+  }
+  // const domRef = useRef();
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        console.log(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setVisible(true)
+          observer.unobserve(domRef.current);
+        }
+      })
+    }, options);
+    observer.observe(domRef.current);
+    return () => observer.unobserve(domRef.current)// clean up
+  }, []);
+
+  return (
+    <Slide direction={direction} in={isVisible} mountOnEnter timeout={800} >
+      <div>
+        <Typography
+          className={emphasis ? classes.Primary : null }
+          variant='h3'
+          style={{textTransform: 'uppercase', display:'inline'}}
+          children={primaryText}
+        />
+      </div>
+    </Slide>
+    // </div>
+  )
+}
+
+
+
+
+
+
 
 const ProductItem = ({
   direction,
@@ -155,7 +249,6 @@ const ProductItem = ({
   image
 }) => {
   const classes = useStyles();
-  const data = useStaticQuery(query)
 
   const [isVisible, setVisible] = useState(false);
   const options = {
@@ -179,7 +272,7 @@ const ProductItem = ({
   return (
   <div ref={domRef} style={{minHeight:'500px'}}>
     <Slide direction={direction} in={isVisible} mountOnEnter timeout={800} >
-    <ListItem className={direction === 'right' ? classes.fromRight : classes.fromLeft} key='456789'>
+    <ListItem className={clsx(direction === 'right' ? classes.fromRight : classes.fromLeft, classes.ListItem)} key='456789'>
       <Container
         maxWidth="sm"
         children={image}
@@ -227,11 +320,12 @@ const Products = () => {
         maxWidth="lg">
         <Typography
           variant='subtitle1'
-          children="Tech solutions"/>
+          children="Audio solutions"/>
         <Divider/>
         <Typography
           variant='h1'
           align="center"
+          style={{fontWeight: 500, letterSpacing:'1rem'}}
           children="LO·FI"/>
       </Container>
     </Box>
@@ -241,12 +335,28 @@ const Products = () => {
       <Img fluid={data?.placeholderImage?.childImageSharp?.fluid} />
     </Container>
     <div className={classes.productSection}>
-    <div style={{margin: ' 100px 50px 250px 50px'}}>
+      <Box style={{display:'flex', flexDirection: 'column'}}>
+        <div ref={ref} style={{ padding: '0px 64px 32px 64px'}}>
+          <ProductSubTitle
+            emphasis={false}
+            direction={'left'}
+            primaryText={'built to'}
+            domRef={ref}/>
+          <Divider /* className={classes.Divider}  *//>
+          <ProductSubTitle
+            emphasis={true}
+            direction={'left'}
+            primaryText={'last'}
+            domRef={ref}/>
+          <Divider /* className={classes.Divider} */ />
+        </div>
+      </Box>
+    <div style={{margin: '0px 64px 250px 64px'}}>
       <Typography
         variant='h5'
         style={{display:'inline'}}
         children={`
-        Designed for the Real World The real world is a complex place, 
+        The real world is a complex place, 
         which is why all of 
         `}
         />
