@@ -4,7 +4,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import { makeStyles } from '@material-ui/core/styles';
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { Box, Container, Divider, List, ListItem, ListItemText, Slide, Typography } from "@material-ui/core"
+import { Box, Container, Divider, Grid, Grow, List, ListItem, ListItemText, Slide, Typography } from "@material-ui/core"
 import Img from "gatsby-image"
 import clsx from  'clsx'
 
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: 'flex-start'
   },
   productSection: {
-    paddingTop: theme.spacing(3),
+    paddingTop: theme.spacing(4),
     // transform: "translate(0px, -120px)",
     transform: "translate(0px, -100px)",
     [theme.breakpoints.up('sm')]: {
@@ -198,8 +198,10 @@ const query = graphql`
 
 
 
-const ProductSubTitle = ({emphasis = false, direction, primaryText, /* secondaryText */ domRef}) => {
+const ProductSubTitle = ({emphasis = false, direction, primaryText, secondaryText = null, domRef}) => {
   const [isVisible, setVisible] = useState(false);
+  const [isVisibleDelay, setVisibleDelay] = useState(false);
+
   const classes = useStyles();
 
   const options = {
@@ -213,6 +215,7 @@ const ProductSubTitle = ({emphasis = false, direction, primaryText, /* secondary
         console.log(entry.isIntersecting);
         if (entry.isIntersecting) {
           setVisible(true)
+          setTimeout(()=> setVisibleDelay(true), 700)
           observer.unobserve(domRef.current);
         }
       })
@@ -222,17 +225,41 @@ const ProductSubTitle = ({emphasis = false, direction, primaryText, /* secondary
   }, []);
 
   return (
-    <Slide direction={direction} in={isVisible} mountOnEnter timeout={800} >
+  <Grid
+    container
+    direction="row">
+    <Slide
+      direction={direction}
+      in={isVisible}
+      mountOnEnter
+      timeout={1000}
+      >
       <div>
         <Typography
-          className={emphasis ? classes.Primary : null }
           variant='h3'
           style={{textTransform: 'uppercase', display:'inline'}}
           children={primaryText}
         />
       </div>
     </Slide>
-    // </div>
+    {/* <Slide */}
+    <Grow
+/*       direction={direction} */
+      in={isVisibleDelay}
+      mountOnEnter
+      timeout={900}
+      >
+      <div >
+        {secondaryText && <Typography
+          className={emphasis ? classes.Primary : null }
+          variant='h3'
+          style={{textTransform: 'uppercase', display:'inline', paddingLeft:'16px'}}
+          children={secondaryText}
+        />}
+      </div>
+      </Grow>
+    {/* </Slide> */}
+  </Grid>
   )
 }
 
@@ -340,13 +367,14 @@ const Products = () => {
           <ProductSubTitle
             emphasis={false}
             direction={'left'}
-            primaryText={'built to'}
+            primaryText={'manufactured'}
             domRef={ref}/>
           <Divider /* className={classes.Divider}  *//>
           <ProductSubTitle
             emphasis={true}
             direction={'left'}
-            primaryText={'last'}
+            primaryText={'to '}
+            secondaryText={' last'}
             domRef={ref}/>
           <Divider /* className={classes.Divider} */ />
         </div>
