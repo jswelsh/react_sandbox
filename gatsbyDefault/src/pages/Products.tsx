@@ -38,15 +38,12 @@ const useStyles = makeStyles((theme) => ({
   },
   productSection: {
     paddingTop: theme.spacing(4),
-    // transform: "translate(0px, -120px)",
     transform: "translate(0px, -100px)",
     [theme.breakpoints.up('sm')]: {
-      // transform: "translate(0px, -180px)",
       transform: "translate(0px, -160px)",
       paddingTop: theme.spacing(6),
     },
     [theme.breakpoints.up('md')]: {
-      // transform: "translate(0px, -310px)",
       transform: "translate(0px, -290px)",
       paddingTop: theme.spacing(8),
     }
@@ -98,19 +95,20 @@ const useStyles = makeStyles((theme) => ({
   },
   ListItem: {
     minWidth:'300px',
-    maxWidth: '1200px',
+    maxWidth: '520px',
+    // maxWidth: '1200px',
     display:'flex',
     flexDirection:'column',
   },
   fromLeft: {
-    [theme.breakpoints.up('md')]: {
+/*     [theme.breakpoints.up('md')]: {
       flexDirection:'row',
-    }
+    } */
   },
   fromRight: {
-    [theme.breakpoints.up('md')]: {
+/*     [theme.breakpoints.up('md')]: {
       flexDirection:'row-reverse',
-    }
+    } */
   },
   productTitle: {
     '&:first-letter': {
@@ -208,7 +206,6 @@ const ProductSubTitle = ({emphasis = false, direction, primaryText, secondaryTex
     rootMargin: '100px 0px 100px 0px',
     threshold: 1
   }
-  // const domRef = useRef();
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -264,11 +261,6 @@ const ProductSubTitle = ({emphasis = false, direction, primaryText, secondaryTex
 }
 
 
-
-
-
-
-
 const ProductItem = ({
   direction,
   title,
@@ -297,9 +289,12 @@ const ProductItem = ({
     return () => observer.unobserve(domRef.current)// clean up
   }, []);
   return (
+    <Grid item md={6}>
   <div ref={domRef} style={{minHeight:'500px'}}>
     <Slide direction={direction} in={isVisible} mountOnEnter timeout={800} >
-    <ListItem className={clsx(direction === 'right' ? classes.fromRight : classes.fromLeft, classes.ListItem)} key='456789'>
+    <ListItem 
+      // className={clsx(direction === 'right' ? classes.fromRight : classes.fromLeft, classes.ListItem)}
+      key='456789'>
       <Container
         maxWidth="sm"
         children={image}
@@ -325,6 +320,7 @@ const ProductItem = ({
     </ListItem>
   </Slide>
   </div>
+  </Grid>
 
   );
 };
@@ -334,6 +330,8 @@ const Products = () => {
   const data = useStaticQuery(query)
 
   const ref = useRef()
+  const refTwo = useRef()
+
   const onScreen = useOnScreen(ref)
 
   const allowedProps = { ref } //Used because of typescript
@@ -363,121 +361,118 @@ const Products = () => {
     </Container>
     <div className={classes.productSection}>
       <Box style={{display:'flex', flexDirection: 'column'}}>
-        <div ref={ref} style={{ padding: '0px 64px 32px 64px'}}>
+        <div ref={refTwo} style={{ padding: '0px 64px 32px 64px'}}>
           <ProductSubTitle
             emphasis={false}
             direction={'left'}
             primaryText={'manufactured'}
-            domRef={ref}/>
+            domRef={refTwo}/>
           <Divider /* className={classes.Divider}  *//>
           <ProductSubTitle
             emphasis={true}
             direction={'left'}
             primaryText={'to '}
             secondaryText={' last'}
-            domRef={ref}/>
+            domRef={refTwo}/>
           <Divider /* className={classes.Divider} */ />
         </div>
       </Box>
-    <div style={{margin: '0px 64px 250px 64px'}}>
-      <Typography
-        variant='h5'
-        style={{display:'inline'}}
-        children={`
-        The real world is a complex place, 
-        which is why all of 
-        `}
-        />
-      <Typography
-        variant='h5'
-        style={{display:'inline', borderBottom:'solid 5px #00af69'}}
-        children={`
-          our products are overbuilt.
-        `}
-        />
-      <Typography
-        variant='h5'
-        style={{display:'inline'}}
-        children={`
-        Pick up any of 
-        our products, and marvel at their weight, heft, and solidity. 
-        Even our smallest products are made of aluminum and steel. 
-        The larger products use high-quality C-core transformers, 
-        extensive power supply filtering, and precision low-noise 
-        regulation.
-        `}
-        />
-  </div>
-      {/* <div className={classes.underline}></div> */}
+      <div style={{margin: '0px 64px 250px 64px'}}>
         <Typography
-          variant="h3"
-          className={classes.productsTitle}
-          children="Our Products"/>
-    <List className={classes.productsList}>
-      <ProductItem
-        direction={'left'}
-        title={'Denali 922.00'}
-        description={`
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-          nisi ut aliquip ex ea commodo consequat.
-        `}
-        image={
-          <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-        }
-      />
-      <ProductItem
-        direction={'right'}
-        title={'TMZ-450'}
-        description={`
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-          nisi ut aliquip ex ea commodo consequat.
-        `}
-        image={
-          <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-        }
-      />
-      <ProductItem
-        direction={'left'}
-        title={'Obsidian Theto'}
-        description={`
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-          nisi ut aliquip ex ea commodo consequat.
-        `}
-        image={
-          <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-        }
-      />
-      <ProductItem
-        direction={'right'}
-        title={'Trinity-U M100'}
-        description={`
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-          nisi ut aliquip ex ea commodo consequat.`}
-        image={
-          <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-        }
-      />
-      <ProductItem
-        direction={'left'}
-        title={'Deltron 0'}
-        description={`
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-          nisi ut aliquip ex ea commodo consequat.`}
-        image={
-          <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-        }
-      />
-    </List>
+          variant='h5'
+          style={{display:'inline'}}
+          children={`
+          The real world is a complex place, 
+          which is why all of our products are 
+          `}
+        />
+        <Typography
+          variant='h5'
+          style={{display:'inline', borderBottom:'solid 5px #00af69'}}
+          children={`overbuilt.`}
+        />
+        <Typography
+          variant='h5'
+          style={{display:'inline'}}
+          children={`
+          Pick up any of 
+          our products, and marvel at their weight, heft, and solidity. 
+          Even our smallest products are made of aluminum and steel. 
+          The larger products use high-quality C-core transformers, 
+          extensive power supply filtering, and precision low-noise 
+          regulation.
+          `}
+        />
+      </div>
+      <Typography
+        variant="h3"
+        className={classes.productsTitle}
+        children="Our Products"/>
+      <List className={classes.productsList}>
+        <Grid container spacing={3}>
+          <ProductItem
+            direction={'right'}
+            title={'Denali 922.00'}
+            description={`
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+              nisi ut aliquip ex ea commodo consequat.
+            `}
+            image={
+              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
+            }
+          />
+          <ProductItem
+            direction={'left'}
+            title={'TMZ-450'}
+            description={`
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+              nisi ut aliquip ex ea commodo consequat.
+            `}
+            image={
+              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
+            }
+          />
+          <ProductItem
+            direction={'right'}
+            title={'Obsidian Theto'}
+            description={`
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+              nisi ut aliquip ex ea commodo consequat.
+            `}
+            image={
+              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
+            }
+          />
+          <ProductItem
+            direction={'left'}
+            title={'Trinity-U M100'}
+            description={`
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
+              nisi ut aliquip ex ea commodo consequat.`}
+            image={
+              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
+            }
+          />
+          <ProductItem
+            direction={'right'}
+            title={'Deltron 0'}
+            description={`
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+              nisi ut aliquip ex ea commodo consequat.`}
+            image={<Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />}
+          />
+        </Grid>
+      </List>
     </div>
   </Layout>
   )
