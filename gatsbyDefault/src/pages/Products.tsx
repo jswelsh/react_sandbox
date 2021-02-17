@@ -4,9 +4,11 @@ import { useStaticQuery, graphql } from "gatsby"
 import { makeStyles } from '@material-ui/core/styles';
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { Box, Card, CardContent, CardMedia, Container, Divider, Grid, Grow, List, ListItem, ListItemText, Slide, Typography } from "@material-ui/core"
+import { Box, Card, CardContent, CardMedia, Container, Divider, Fade, Grid, Grow, List, ListItem, ListItemText, Slide, Typography } from "@material-ui/core"
 import Img from "gatsby-image"
 import clsx from  'clsx'
+import HeroTextSection from "../components/heroTextSection";
+import ProductItem from "../components/productItem";
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -49,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   BrandPillar:{
-    margin: ' 0px 32px 64px 32px',
+    margin: ' 0px 64px 64px 64px',
     [theme.breakpoints.up('sm')]: {
       margin: '0px 64px 96px 64px'
     },
@@ -57,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
       margin: '0px 64px 128px 64px'
     }
   },
+
   productsList: {
     overflow: 'hidden',
     display:'flex',
@@ -87,9 +90,9 @@ const useStyles = makeStyles((theme) => ({
       transform: 'translate(16px, 100px)',
     }
   },
-  Primary: {
+/*   Primary: {
     color:'#00af69'
-  },
+  }, */
   Divider: {
     background: '#00af69'
   },
@@ -135,128 +138,6 @@ const query = graphql`
   }
 `
 
-const ProductSubTitle = ({emphasis = false, direction, primaryText = null, secondaryText = null, domRef}) => {
-  const [isVisible, setVisible] = useState(false);
-  const [isVisibleDelay, setVisibleDelay] = useState(false);
-
-  const classes = useStyles();
-
-  const options = {
-    rootMargin: '100px 0px 100px 0px',
-    threshold: 1
-  }
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        console.log(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          setVisible(true)
-          setTimeout(()=> setVisibleDelay(true), 700)
-          observer.unobserve(domRef.current);
-        }
-      })
-    }, options);
-    observer.observe(domRef.current);
-    return () => observer.unobserve(domRef.current)// clean up
-  }, []);
-
-  return (
-  <Grid
-    container
-    direction="row">
-    {primaryText && <Slide
-      direction={direction}
-      in={isVisible}
-      mountOnEnter
-      timeout={1000}
-      >
-      <div>
-        <Typography
-          variant='h3'
-          style={{textTransform: 'uppercase', display:'inline'}}
-          children={primaryText}
-        />
-      </div>
-    </Slide>}
-    <Grow
-      in={isVisibleDelay}
-      mountOnEnter
-      timeout={900}
-      >
-      <div >
-        {secondaryText && <Typography
-          className={emphasis ? classes.Primary : null }
-          variant='h3'
-          style={{textTransform: 'uppercase', display:'inline', paddingLeft: primaryText ? '16px' : '0px'}}
-          children={secondaryText}
-        />}
-      </div>
-      </Grow>
-  </Grid>
-  )
-}
-
-
-const ProductItem = ({
-  direction,
-  title,
-  description,
-  image
-}) => {
-  const classes = useStyles();
-
-  const [isVisible, setVisible] = useState(false);
-  const options = {
-    rootMargin: '-100px 0px -100px 0px',
-    threshold: 1
-  }
-  const domRef = useRef();
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        console.log(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.unobserve(domRef.current);
-        }
-      })
-    }, options);
-    observer.observe(domRef.current);
-    return () => observer.unobserve(domRef.current)// clean up
-  }, []);
-  return (
-    <Grid
-      ref={domRef}
-      item
-      xs={12}
-      sm={12}
-      md={6}
-      lg={6}
-      xl={6}
-      spacing={3}
-      style={{minHeight:'200px', maxWidth: '600px', padding:'32px 64px', justifyContent:'center'}}>
-      <Slide direction={direction} in={isVisible} mountOnEnter timeout={1200} >
-        <Card style={{maxWidth: '500px'}}>
-          <CardMedia>
-            {image}
-          </CardMedia>
-          <CardContent>
-            <Typography
-              variant='h3'
-              className={classes.productTitle}
-              children={title}/>
-            <Typography
-              component="span"
-              variant="body2"
-              color="textPrimary"
-              children={description}/>
-          </CardContent>
-        </Card>
-      </Slide>
-    </Grid>
-  );
-};
-
 const Products = () => {
   const classes = useStyles();
   const data = useStaticQuery(query)
@@ -299,16 +180,22 @@ const Products = () => {
         background: 'rgb(0 0 0 / 20%)'
         }}> */}
       <Box
-      style={{display:'flex', flexDirection: 'column'}}
-      >
-        <div ref={refTwo} style={{ padding: '0px 64px 32px 64px'}}>
-          <ProductSubTitle
+        style={{
+          display:'flex',
+          flexDirection: 'column'}}>
+        <div 
+          ref={refTwo}
+          style={{
+            maxWidth: '550px',
+            overflow: 'hidden',
+            padding: '0px 64px 32px 64px'}}>
+          <HeroTextSection
             emphasis={false}
             direction={'left'}
             primaryText={'forged'}
             domRef={refTwo}/>
           <Divider /* className={classes.Divider}  *//>
-          <ProductSubTitle
+          <HeroTextSection
             emphasis={true}
             direction={'left'}
             primaryText={'to '}
@@ -423,27 +310,60 @@ const Products = () => {
         </Grid>
       </List>
     </Box>
-    <Box style={{
+    <Box
+      style={{
         display:'flex', 
         flexDirection: 'column',
-        background: 'rgb(0 0 0 / 20%)'
-        }}>
-      <div ref={refThree} style={{ padding: '0px 64px 32px 64px'}}>
-        <ProductSubTitle
+        // background: 'rgb(0 0 0 / 20%)'
+      }}>
+      <div 
+        ref={refThree}
+        style={{
+          maxWidth: '550px',
+          overflow: 'hidden',
+          padding: '0px 64px 32px 64px'}}>
+        <HeroTextSection
           emphasis={false}
           direction={'left'}
           primaryText={'cutting'}
           domRef={refThree}/>
-        <ProductSubTitle
+        <Divider /* className={classes.Divider}  *//>
+        <HeroTextSection
           emphasis={true}
           direction={'left'}
           primaryText={'edge'}
           secondaryText={'design'}
           domRef={refThree}/>
-        <Divider /* className={classes.Divider}  *//>
-        <Divider /* className={classes.Divider} */ />
+          {/* <Divider
+          className={classes.Divider} /> */}
       </div>
     </Box>
+    <Box className={classes.BrandPillar}>
+        <Typography
+          variant='h6'
+          style={{display:'inline'}}
+          children={`
+          Class aptent taciti sociosqu ad litora torquent 
+          per conubia nostra, per inceptos himenaeos. Luctus  
+          lacus ut 
+          `}
+        />
+        <Typography
+          variant='h6'
+          style={{display:'inline', borderBottom:'solid 5px #00af69'}}
+          children={`pharetra`}
+        />
+        <Typography
+          variant='h6'
+          style={{display:'inline'}}
+          children={`
+          lacinia quis posuere ut, pulvinar vitae dolor.
+          Integer eu nibh at nisi ullamcorper sagittis id 
+          vel leo. Integer feugiat faucibus libero, at 
+          maximus nisl suscipit posuere.
+          `}
+        />
+      </Box>
   </Layout>
   )
 }
