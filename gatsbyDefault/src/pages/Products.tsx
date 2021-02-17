@@ -4,7 +4,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import { makeStyles } from '@material-ui/core/styles';
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { Box, Container, Divider, Grid, Grow, List, ListItem, ListItemText, Slide, Typography } from "@material-ui/core"
+import { Box, Card, CardContent, Container, Divider, Grid, Grow, List, ListItem, ListItemText, Slide, Typography } from "@material-ui/core"
 import Img from "gatsby-image"
 import clsx from  'clsx'
 
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     display:'flex',
     alignItems:'center',  
     padding:theme.spacing(2),
-    flexDirection:'column',
+    // flexDirection:'column',
     // maxWidth: 1000
   },
   productsTitle: {
@@ -87,19 +87,12 @@ const useStyles = makeStyles((theme) => ({
   Divider: {
     background: '#00af69'
   },
-  productItem: {
+/*   productItem: {
     padding: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
       maxWidth: '520px'
     }
-  },
-  ListItem: {
-    minWidth:'300px',
-    maxWidth: '520px',
-    // maxWidth: '1200px',
-    display:'flex',
-    flexDirection:'column',
-  },
+  }, */
   fromLeft: {
 /*     [theme.breakpoints.up('md')]: {
       flexDirection:'row',
@@ -153,48 +146,6 @@ const query = graphql`
     }
   }
 `
-/* const ProductSubTitle = ({direction, primaryText}) => {
-  const [isVisible, setVisible] = useState(false);
-  const classes = useStyles();
-
-  const options = {
-    rootMargin: '100px 0px 100px 0px',
-    threshold: 1
-  }
-  const domRef = useRef();
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        console.log(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.unobserve(domRef.current);
-        }
-      })
-    }, options);
-    observer.observe(domRef.current);
-    return () => observer.unobserve(domRef.current)// clean up
-  }, []);
-
-  return (
-  <div ref={domRef} style={{minHeight:'300px', padding:64}}>
-    <Slide direction={direction} in={isVisible} mountOnEnter timeout={800} >
-      <Typography
-        variant='h3'
-        style={{textTransform: 'uppercase', display:'inline'}}
-        children={primaryText}
-      />
-    </Slide>
-    <Divider className={classes.Divider} />
-  </div>
-  )
-}
- */
-
-
-
-
-
 
 const ProductSubTitle = ({emphasis = false, direction, primaryText, secondaryText = null, domRef}) => {
   const [isVisible, setVisible] = useState(false);
@@ -239,9 +190,7 @@ const ProductSubTitle = ({emphasis = false, direction, primaryText, secondaryTex
         />
       </div>
     </Slide>
-    {/* <Slide */}
     <Grow
-/*       direction={direction} */
       in={isVisibleDelay}
       mountOnEnter
       timeout={900}
@@ -255,7 +204,6 @@ const ProductSubTitle = ({emphasis = false, direction, primaryText, secondaryTex
         />}
       </div>
       </Grow>
-    {/* </Slide> */}
   </Grid>
   )
 }
@@ -289,11 +237,46 @@ const ProductItem = ({
     return () => observer.unobserve(domRef.current)// clean up
   }, []);
   return (
-    <Grid item md={6}>
+  <Grid
+    ref={domRef}
+    item
+    md={6}
+    lg={6}
+    xl={6}
+    spacing={3}
+    style={{minHeight:'500px', maxWidth:'700px',padding:'32px 64px', justifyContent:'center'}}>
+    <Slide direction={direction} in={isVisible} mountOnEnter timeout={800} >
+      <Card className={
+        direction === 'right'
+          ? classes.fromRight
+          : classes.fromLeft}>
+        {image}
+        <CardContent>
+          <Typography
+            variant='h3'
+            className={classes.productTitle}
+            children={title}/>
+          <Typography
+            component="span"
+            variant="body2"
+            color="textPrimary"
+            children={description}/>
+        </CardContent>
+      </Card>
+{/*     </ListItem> */}
+  </Slide>
+  </Grid>
+
+  );
+};
+
+/* 
+
+  <Grid item md={6}>
   <div ref={domRef} style={{minHeight:'500px'}}>
     <Slide direction={direction} in={isVisible} mountOnEnter timeout={800} >
     <ListItem 
-      // className={clsx(direction === 'right' ? classes.fromRight : classes.fromLeft, classes.ListItem)}
+      className={clsx(direction === 'right' ? classes.fromRight : classes.fromLeft, classes.ListItem)}
       key='456789'>
       <Container
         maxWidth="sm"
@@ -321,9 +304,8 @@ const ProductItem = ({
   </Slide>
   </div>
   </Grid>
+*/
 
-  );
-};
 
 const Products = () => {
   const classes = useStyles();
@@ -409,7 +391,11 @@ const Products = () => {
         className={classes.productsTitle}
         children="Our Products"/>
       <List className={classes.productsList}>
-        <Grid container spacing={3}>
+        <Grid 
+          container 
+          spacing={3}
+          justify="center"
+          alignItems="center">
           <ProductItem
             direction={'right'}
             title={'Denali 922.00'}
