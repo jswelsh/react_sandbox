@@ -10,6 +10,7 @@ import clsx from  'clsx'
 import HeroTextSection from "../components/heroTextSection";
 import ProductItem from "../components/productItem";
 import productsList from "../data/productsList";
+import CarouselComponent from "../components/carouselComponent";
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -48,13 +49,13 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   BrandPillar:{
-    margin: '0px 64px 64px 64px',
-    [theme.breakpoints.up('sm')]: {
+    margin: '24px 64px',
+/*     [theme.breakpoints.up('sm')]: {
       margin: '0px 64px 96px 64px'
     },
     [theme.breakpoints.up('md')]: {
       margin: '0px 64px 128px 64px'
-    }
+    } */
   },
 
   productsList: {
@@ -255,77 +256,10 @@ const Products = () => {
         `}
       />
     </Box>
+      <Box style={{background:'rgba(0, 129, 77, 0.493)'}}>
+        <CarouselComponent />
+      </Box>
   </Layout>
   )
 }
 export default Products
-
-
-
-/* 
-
- <ProductItem
-            direction={'right'}
-            title={'Denali 922.00'}
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-              nisi ut aliquip ex ea commodo consequat.
-            `}
-            image={
-              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-            }
-          />
-          <ProductItem
-            direction={'left'}
-            title={'TMZ-450'}
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-              nisi ut aliquip ex ea commodo consequat.
-            `}
-            image={
-              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-            }
-          />
-          <ProductItem
-            direction={'right'}
-            title={'Obsidian Theto'}
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-              nisi ut aliquip ex ea commodo consequat.
-            `}
-            image={
-              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-            }
-          />
-          <ProductItem
-            direction={'left'}
-            title={'Trinity-U M100'}
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-              nisi ut aliquip ex ea commodo consequat.`}
-            image={
-              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-            }
-          />
-          <ProductItem
-            direction={'right'}
-            title={'Deltron 0'}
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-              nisi ut aliquip ex ea commodo consequat.`}
-            image={<Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />}
-          />
-
-
-
-*/
