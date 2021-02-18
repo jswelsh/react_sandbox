@@ -25,7 +25,7 @@ const HeroTextSection = ({first, second}) => {
           style={{
             maxWidth: '550px',
             overflow: 'hidden',
-            padding: '0px 64px 32px 64px'}}>
+            padding: '0px 64px 32px 0px'}}>
           <HeroTextItem
             emphasis={false}
             direction={first.direction}
