@@ -9,6 +9,7 @@ import Img from "gatsby-image"
 import clsx from  'clsx'
 import HeroTextSection from "../components/heroTextSection";
 import ProductItem from "../components/productItem";
+import productsList from "../data/productsList";
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -33,10 +34,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       transform: "translate(0px, -310px)"
     }
-  },
-  heroImageOverlay: {
-    zIndex:1,
-    alignSelf: 'flex-start'
   },
   productSection: {
     paddingTop: theme.spacing(10),
@@ -77,22 +74,6 @@ const useStyles = makeStyles((theme) => ({
       // paddingBottom: theme.spacing(8),
     },
   },
-  underline: {
-    position:'absolute',
-    zIndex: -5,
-    background:'#00af69',
-    height: '16px',
-    width: '280px',
-    transform: 'translate(16px, 57px)',
-    [theme.breakpoints.up('md')]: {
-      width: '565px',
-      height: '32px',
-      transform: 'translate(16px, 100px)',
-    }
-  },
-/*   Primary: {
-    color:'#00af69'
-  }, */
   Divider: {
     background: '#00af69'
   },
@@ -141,11 +122,7 @@ const query = graphql`
 const Products = () => {
   const classes = useStyles();
   const data = useStaticQuery(query)
-
   const ref = useRef()
-  const refTwo = useRef()
-  const refThree = useRef()
-
   const onScreen = useOnScreen(ref)
 
   const allowedProps = { ref } //Used because of typescript
@@ -174,36 +151,16 @@ const Products = () => {
       <Img fluid={data?.placeholderImage?.childImageSharp?.fluid} />
     </Container>
     <Box className={classes.productSection}>
-    {/* <Box style={{
-        display:'flex', 
-        flexDirection: 'column',
-        background: 'rgb(0 0 0 / 20%)'
-        }}> */}
-      <Box
-        style={{
-          display:'flex',
-          flexDirection: 'column'}}>
-        <div 
-          ref={refTwo}
-          style={{
-            maxWidth: '550px',
-            overflow: 'hidden',
-            padding: '0px 64px 32px 64px'}}>
-          <HeroTextSection
-            emphasis={false}
-            direction={'left'}
-            primaryText={'forged'}
-            domRef={refTwo}/>
-          <Divider /* className={classes.Divider}  *//>
-          <HeroTextSection
-            emphasis={true}
-            direction={'left'}
-            primaryText={'to '}
-            secondaryText={' last'}
-            domRef={refTwo}/>
-          <Divider /* className={classes.Divider} */ />
-        </div>
-      </Box>
+      <HeroTextSection
+        first={{
+          direction:'left',
+          primaryText:'forged',
+          secondaryText: null}}
+        second={{
+          direction:'left',
+          primaryText:'to ',
+          secondaryText:' last'}}
+        />
       <Box className={classes.BrandPillar}>
         <Typography
           variant='h6'
@@ -231,8 +188,6 @@ const Products = () => {
           `}
         />
       </Box>
-      {/* </Box> */}
-      {/* <div className={classes.underline}/> */}
       <Typography
         variant="h3"
         className={classes.productsTitle}
@@ -246,6 +201,20 @@ const Products = () => {
           spacing={3}
           justify="center"
           alignItems="center">
+            {
+              productsList().forEach(({
+                title,
+                description,
+                image
+              }) => {
+                <ProductItem
+                direction={'right'}
+                title={title}
+                description={description}
+                image={<Img fluid={image}/>}
+              />
+              })
+            }
           <ProductItem
             direction={'right'}
             title={'Denali 922.00'}
@@ -310,60 +279,33 @@ const Products = () => {
         </Grid>
       </List>
     </Box>
-    <Box
-      style={{
-        display:'flex', 
-        flexDirection: 'column',
-        // background: 'rgb(0 0 0 / 20%)'
-      }}>
-      <div 
-        ref={refThree}
-        style={{
-          maxWidth: '550px',
-          overflow: 'hidden',
-          padding: '0px 64px 32px 64px'}}>
-        <HeroTextSection
-          emphasis={false}
-          direction={'left'}
-          primaryText={'cutting'}
-          domRef={refThree}/>
-        <Divider /* className={classes.Divider}  *//>
-        <HeroTextSection
-          emphasis={true}
-          direction={'left'}
-          primaryText={'edge'}
-          secondaryText={'design'}
-          domRef={refThree}/>
-          {/* <Divider
-          className={classes.Divider} /> */}
-      </div>
-    </Box>
+    
     <Box className={classes.BrandPillar}>
-        <Typography
-          variant='h6'
-          style={{display:'inline'}}
-          children={`
-          Class aptent taciti sociosqu ad litora torquent 
-          per conubia nostra, per inceptos himenaeos. Luctus  
-          lacus ut 
-          `}
-        />
-        <Typography
-          variant='h6'
-          style={{display:'inline', borderBottom:'solid 5px #00af69'}}
-          children={`pharetra`}
-        />
-        <Typography
-          variant='h6'
-          style={{display:'inline'}}
-          children={`
-          lacinia quis posuere ut, pulvinar vitae dolor.
-          Integer eu nibh at nisi ullamcorper sagittis id 
-          vel leo. Integer feugiat faucibus libero, at 
-          maximus nisl suscipit posuere.
-          `}
-        />
-      </Box>
+      <Typography
+        variant='h6'
+        style={{display:'inline'}}
+        children={`
+        Class aptent taciti sociosqu ad litora torquent 
+        per conubia nostra, per inceptos himenaeos. Luctus  
+        lacus ut 
+        `}
+      />
+      <Typography
+        variant='h6'
+        style={{display:'inline', borderBottom:'solid 5px #00af69'}}
+        children={`pharetra`}
+      />
+      <Typography
+        variant='h6'
+        style={{display:'inline'}}
+        children={`
+        lacinia quis posuere ut, pulvinar vitae dolor.
+        Integer eu nibh at nisi ullamcorper sagittis id 
+        vel leo. Integer feugiat faucibus libero, at 
+        maximus nisl suscipit posuere.
+        `}
+      />
+    </Box>
   </Layout>
   )
 }

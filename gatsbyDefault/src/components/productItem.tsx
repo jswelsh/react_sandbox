@@ -51,7 +51,11 @@ const ProductItem = ({
       <Slide direction={direction} in={isVisible} mountOnEnter timeout={1200} >
         <div>
           <Fade timeout={1500} in={isVisible}>
-            <Card style={{maxWidth: '500px'}}>
+            <Card
+              style={{
+                maxWidth: '500px',
+                margin:'auto'
+                }}>
               <CardMedia>
                 {image}
               </CardMedia>

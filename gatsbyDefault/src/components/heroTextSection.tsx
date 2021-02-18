@@ -1,100 +1,47 @@
-import { Grid, Slide, Fade, Typography, Grow, Divider } from '@material-ui/core';
-import React, { useEffect, useState } from 'react'
+import { Grid, Slide, Fade, Typography, Grow, Divider, Box } from '@material-ui/core';
+import React, { useEffect, useRef, useState } from 'react'
 import clsx from  'clsx'
 import { makeStyles } from '@material-ui/core/styles';
+import HeroTextItem from './heroTextItem';
 
 const useStyles = makeStyles((theme) => ({
-  BrandCaptionPrimary: {
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '2.125rem',
-      fontWeight: '400',
-      lineHeight: '1.235',
-      letterSpacing: '0.00735em'
-    }
-  },
-  Primary: {
-    color:'#00af69'
-  },
   Divider: {
-    background: '#00af69'
-  },
-}));
+      background: '#00af69'
+    },
+  }));
 
-const HeroTextSection = ({emphasis = false, direction, primaryText = null, secondaryText = null, domRef}) => {
-  const [isVisible, setVisible] = useState(false);
-  const [isVisibleDelay, setVisibleDelay] = useState(false);
-
-  const classes = useStyles();
-
-  const options = {
-    rootMargin: '100px 0px 100px 0px',
-    threshold: 1
-  }
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        console.log(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          setVisible(true)
-          setTimeout(()=> setVisibleDelay(true), 700)
-          observer.unobserve(domRef.current);
-        }
-      })
-    }, options);
-    observer.observe(domRef.current);
-    return () => observer.unobserve(domRef.current)// clean up
-  }, []);
+const HeroTextSection = ({first, second}) => {
+  const ref = useRef()
+  const classes = useStyles()
 
   return (
-  <Grid
-    container
-    direction="row">
-    {primaryText
-    && <Slide
-        direction={direction}
-        in={isVisible}
-        mountOnEnter
-        timeout={1000}
-        >
-        <div>
-          <Fade timeout={1500} in={isVisible}>
-            <div>
-              <Typography
-                variant='h3'
-                className={classes.BrandCaptionPrimary}
-                style={{textTransform: 'uppercase', display:'inline'}}
-                children={primaryText}
-              />
-            </div>
-          </Fade>
+      <Box
+        style={{
+          display:'flex', 
+          flexDirection: 'column',
+          /* background: 'rgb(0 0 0 / 20%)' */}}>
+        <div
+          ref={ref}
+          style={{
+            maxWidth: '550px',
+            overflow: 'hidden',
+            padding: '0px 64px 32px 64px'}}>
+          <HeroTextItem
+            emphasis={false}
+            direction={first.direction}
+            primaryText={first.primaryText}
+            secondaryText={first.secondaryText}
+            domRef={ref}/>
+          <Divider /* className={classes.Divider}  *//>
+          <HeroTextItem
+            emphasis={true}
+            direction={second.direction}
+            primaryText={second.primaryText}
+            secondaryText={second.secondaryText}
+            domRef={ref}/>
+          <Divider className={classes.Divider} />
         </div>
-      </Slide>
-    }
-    <Grow
-      in={isVisibleDelay}
-      mountOnEnter
-      timeout={900}
-      >
-      <div >
-        {secondaryText && <Typography
-          className={clsx(emphasis ? classes.Primary : null, classes.BrandCaptionPrimary) }
-          variant='h3'
-          style={{textTransform: 'uppercase', display:'inline', paddingLeft: primaryText ? '16px' : '0px'}}
-          children={secondaryText}
-        />}
-      </div>
-    </Grow>
-    <Slide
-      direction={direction}
-      in={isVisible}
-      mountOnEnter
-      timeout={900}
-      >
-      <div>
-        <Divider className={classes.Divider} />
-      </div>
-    </Slide>
-  </Grid>
+      </Box>
   )
 }
 
