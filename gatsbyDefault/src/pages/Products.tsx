@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   BrandPillar:{
-    margin: ' 0px 64px 64px 64px',
+    margin: '0px 64px 64px 64px',
     [theme.breakpoints.up('sm')]: {
       margin: '0px 64px 96px 64px'
     },
@@ -151,6 +151,7 @@ const Products = () => {
       <Img fluid={data?.placeholderImage?.childImageSharp?.fluid} />
     </Container>
     <Box className={classes.productSection}>
+      <Box className={classes.BrandPillar}>
       <HeroTextSection
         first={{
           direction:'left',
@@ -161,7 +162,6 @@ const Products = () => {
           primaryText:'to ',
           secondaryText:' last'}}
         />
-      <Box className={classes.BrandPillar}>
         <Typography
           variant='h6'
           style={{display:'inline'}}
@@ -194,28 +194,77 @@ const Products = () => {
           children="Our Products"/>
           <Divider style={{padding: '3px', margin: '0px 32px'}} className={classes.Divider} />
       <List className={classes.productsList}>
-        <Grid 
+        <Grid
           style={{maxWidth:'1400px'}}
           xs={12}
           container 
           spacing={3}
           justify="center"
           alignItems="center">
-            {
-              productsList().forEach(({
-                title,
-                description,
-                image
-              }) => {
-                <ProductItem
-                direction={'right'}
-                title={title}
-                description={description}
-                image={<Img fluid={image}/>}
-              />
-              })
-            }
-          <ProductItem
+          {productsList()
+          .map(({
+              title,
+              description,
+              image
+            }, index) => (
+            <ProductItem
+              direction={index % 2 === 0 ? 'right' : 'left'}
+              title={title}
+              description={description}
+              image={<Img fluid={image}
+              />}
+            />)
+          )}
+        </Grid>
+      </List>
+    </Box>
+    
+    <Box className={classes.BrandPillar}>
+      <HeroTextSection
+        first={{
+          direction:'left',
+          primaryText:'cutting',
+          secondaryText: null}}
+        second={{
+          direction:'left',
+          primaryText:'edge',
+          secondaryText:' design'}}
+        />
+      <Typography
+        variant='h6'
+        style={{display:'inline'}}
+        children={`
+        Class aptent taciti sociosqu ad litora torquent 
+        per conubia nostra, per inceptos himenaeos. Luctus  
+        lacus ut 
+        `}
+      />
+      <Typography
+        variant='h6'
+        style={{display:'inline', borderBottom:'solid 5px #00af69'}}
+        children={`pharetra`}
+      />
+      <Typography
+        variant='h6'
+        style={{display:'inline'}}
+        children={`
+        lacinia quis posuere ut, pulvinar vitae dolor.
+        Integer eu nibh at nisi ullamcorper sagittis id 
+        vel leo. Integer feugiat faucibus libero, at 
+        maximus nisl suscipit posuere.
+        `}
+      />
+    </Box>
+  </Layout>
+  )
+}
+export default Products
+
+
+
+/* 
+
+ <ProductItem
             direction={'right'}
             title={'Denali 922.00'}
             description={`
@@ -276,37 +325,7 @@ const Products = () => {
               nisi ut aliquip ex ea commodo consequat.`}
             image={<Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />}
           />
-        </Grid>
-      </List>
-    </Box>
-    
-    <Box className={classes.BrandPillar}>
-      <Typography
-        variant='h6'
-        style={{display:'inline'}}
-        children={`
-        Class aptent taciti sociosqu ad litora torquent 
-        per conubia nostra, per inceptos himenaeos. Luctus  
-        lacus ut 
-        `}
-      />
-      <Typography
-        variant='h6'
-        style={{display:'inline', borderBottom:'solid 5px #00af69'}}
-        children={`pharetra`}
-      />
-      <Typography
-        variant='h6'
-        style={{display:'inline'}}
-        children={`
-        lacinia quis posuere ut, pulvinar vitae dolor.
-        Integer eu nibh at nisi ullamcorper sagittis id 
-        vel leo. Integer feugiat faucibus libero, at 
-        maximus nisl suscipit posuere.
-        `}
-      />
-    </Box>
-  </Layout>
-  )
-}
-export default Products
+
+
+
+*/
