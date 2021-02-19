@@ -27,14 +27,28 @@ const query = graphql`
   query {
     placeholderImage: file(relativePath: { eq: "c1.jpg" }) {
       childImageSharp {
-        fluid(maxWidth: 520) {
+        fluid(maxWidth: 420) {
           ...GatsbyImageSharpFluid
         }
       }
     },
     placeholderImageTwo: file(relativePath: { eq: "c2.jpg" }) {
       childImageSharp {
-        fluid(maxWidth: 520) {
+        fluid(maxWidth: 420) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    },
+    placeholderImageThree: file(relativePath: { eq: "c5.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 420) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    },
+    placeholderImageFour: file(relativePath: { eq: "c4.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 420) {
           ...GatsbyImageSharpFluid
         }
       }
@@ -47,21 +61,21 @@ const CarouselComponent = ({}) => {
 
   let items = [
     {
-      name: "Random Name #1",
-      description: "Probably the most random thing you have ever seen!",
+      primary: "In the Studio",
+      secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
       image: data?.placeholderImage?.childImageSharp?.fluid
     },{
-      name: "Random Name #2",
-      description: "Hello World!",
+      primary: "On the Stage",
+      secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
       image: data?.placeholderImageTwo?.childImageSharp?.fluid
     },{
-      name: "Random Name #3",
-      description: "Probably the most random thing you have ever seen!",
-      image: data?.placeholderImage?.childImageSharp?.fluid
+      primary: "On the Go",
+      secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
+      image: data?.placeholderImageThree?.childImageSharp?.fluid
     },{
-      name: "Random Name #4",
-      description: "Hello World!",
-      image: data?.placeholderImageTwo?.childImageSharp?.fluid
+      primary: "In the Gym",
+      secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
+      image: data?.placeholderImageFour?.childImageSharp?.fluid
     }
 ]
 
@@ -78,9 +92,9 @@ const chunkedItems = items.reduce((resultArray, item, index) => {
   return (
     <>
     <Hidden lgUp>
-      <Carousel interval={600000}>
+      <Carousel interval={5000}>
       {
-        items.map( (item, i) => <SingleCarouselItem key={i} image={item.image} /> )
+        items.map( (item, i) => <SingleCarouselItem key={i} image={item.image}primary={item.primary} secondary={item.secondary}/> )
       }
       </Carousel>
     </Hidden>
@@ -95,15 +109,7 @@ const chunkedItems = items.reduce((resultArray, item, index) => {
   )
 }
 
-const SingleCarouselItem = (props) => {
-  return (
-    <Paper style={{background: '#00af69', display: 'flex'}}>
-      <Item key={props.key} image={props.image} />
-      </Paper>
-
-  )
-}
-function Item({image}) {
+function Item({image, primary, secondary}) {
   const classes = useStyles();
   return (
     <>
@@ -113,41 +119,33 @@ function Item({image}) {
       </Container>
       <Container>
         <Typography variant='h6' style={{marginLeft:'16px', marginTop:'16px'}}>
-          In the Studio
+          {primary}
         </Typography>
         <Typography variant='body1' style={{marginLeft:'16px', marginTop:'16px'}}>
-          Sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.
+          {secondary}
         </Typography>
       </Container>
       </>
   )
 }
+
+const SingleCarouselItem = ({
+  image, primary, secondary, key
+}) => {
+  return (
+    <Paper style={{background: 'transparent', display: 'flex'}}>
+      <Item key={key} image={image} primary={primary} secondary={secondary} />
+      </Paper>
+
+  )
+}
 const DoubleCarouselItem = ({items}) => {
   return (
-    <Paper style={{background: '#00af69', display: 'flex'}}>
-      <Item key={items[0].key} image={items[0].image} />
-      <Item key={items[1].key} image={items[1].image} />
-      </Paper>
-    
+    <Paper style={{background: 'transparent', display: 'flex'}}>
+      <Item key={items[0].key} image={items[0].image}primary={items[0].primary} secondary={items[0].secondary} />
+      <Item key={items[1].key} image={items[1].image}primary={items[1].primary} secondary={items[1].secondary} />
+    </Paper>
   )
 }
 
 export default CarouselComponent
-
-
-
-{/*       <Container
-      className={classes.heroText}>
-        <Typography variant="h1" color="initial">
-          yoooo
-        </Typography>
-    </Container>
-    <Container
-      className={classes.heroImage}>
-      <Img fluid={image} />
-    </Container> */}
-{/*       <h2>{props.item.name}</h2>
-      <p>{props.item.description}</p>
-      <Button className="CheckButton">
-        Check it out!
-      </Button> */}

@@ -152,43 +152,49 @@ const Products = () => {
       <Img fluid={data?.placeholderImage?.childImageSharp?.fluid} />
     </Container>
     <Box className={classes.productSection}>
-      <Box className={classes.BrandPillar}>
-      <HeroTextSection
-        first={{
-          direction:'left',
-          primaryText:'forged',
-          secondaryText: null}}
-        second={{
-          direction:'left',
-          primaryText:'to ',
-          secondaryText:' last'}}
-        />
-        <Typography
-          variant='h6'
-          style={{display:'inline'}}
-          children={`
-          The real world is a complex place, 
-          which is why all of our products are 
-          `}
-        />
-        <Typography
-          variant='h6'
-          style={{display:'inline', borderBottom:'solid 5px #00af69'}}
-          children={`overbuilt.`}
-        />
-        <Typography
-          variant='h6'
-          style={{display:'inline'}}
-          children={`
-          Pick up any of 
-          our products, and marvel at their weight, heft, and solidity. 
-          Even our smallest products are made of aluminum and steel. 
-          The larger products use high-quality C-core transformers, 
-          extensive power supply filtering, and precision low-noise 
-          regulation.
-          `}
-        />
+      <Box style={{background:'rgba(0, 0, 0, 0.4)'}}>
+        <Box className={classes.BrandPillar}>
+          <HeroTextSection
+            first={{
+              direction:'left',
+              primaryText:'forged',
+              secondaryText: null}}
+            second={{
+              direction:'left',
+              primaryText:'to ',
+              secondaryText:' last'}}
+          />
+          <Typography
+            variant='h6'
+            style={{display:'inline'}}
+            children={`
+            The real world is a complex place, 
+            which is why all of our products are 
+            `}
+          />
+          <Typography
+            variant='h6'
+            style={{display:'inline', borderBottom:'solid 5px #00af69'}}
+            children={`overbuilt.`}
+          />
+          <Typography
+            variant='h6'
+            style={{display:'inline'}}
+            children={`
+            Pick up any of 
+            our products, and marvel at their weight, heft, and solidity. 
+            Even our smallest products are made of aluminum and steel. 
+            The larger products use high-quality C-core transformers, 
+            extensive power supply filtering, and precision low-noise 
+            regulation.
+            `}
+          />
+        </Box>
+        <CarouselComponent
+          
+          />
       </Box>
+
       <Typography
         variant="h3"
         className={classes.productsTitle}
@@ -219,46 +225,43 @@ const Products = () => {
         </Grid>
       </List>
     </Box>
-    
-    <Box className={classes.BrandPillar}>
-      <HeroTextSection
-        first={{
-          direction:'left',
-          primaryText:'cutting',
-          secondaryText: null}}
-        second={{
-          direction:'left',
-          primaryText:'edge',
-          secondaryText:' design'}}
+    <Box style={{background:'rgba(0, 0, 0, 0.4)'}}>
+      <Box className={classes.BrandPillar}>
+        <HeroTextSection
+          first={{
+            direction:'left',
+            primaryText:'cutting',
+            secondaryText: null}}
+          second={{
+            direction:'left',
+            primaryText:'edge',
+            secondaryText:' design'}}
+          />
+        <Typography
+          variant='h6'
+          style={{display:'inline'}}
+          children={`
+          Class aptent taciti sociosqu ad litora torquent 
+          per conubia nostra, per inceptos himenaeos. Luctus  
+          lacus ut 
+          `}/>
+        <Typography
+          variant='h6'
+          style={{display:'inline', borderBottom:'solid 5px #00af69'}}
+          children={`pharetra`}/>
+        <Typography
+          variant='h6'
+          style={{display:'inline'}}
+          children={`
+          lacinia quis posuere ut, pulvinar vitae dolor.
+          Integer eu nibh at nisi ullamcorper sagittis id 
+          vel leo. Integer feugiat faucibus libero, at 
+          maximus nisl suscipit posuere.
+          `}
         />
-      <Typography
-        variant='h6'
-        style={{display:'inline'}}
-        children={`
-        Class aptent taciti sociosqu ad litora torquent 
-        per conubia nostra, per inceptos himenaeos. Luctus  
-        lacus ut 
-        `}
-      />
-      <Typography
-        variant='h6'
-        style={{display:'inline', borderBottom:'solid 5px #00af69'}}
-        children={`pharetra`}
-      />
-      <Typography
-        variant='h6'
-        style={{display:'inline'}}
-        children={`
-        lacinia quis posuere ut, pulvinar vitae dolor.
-        Integer eu nibh at nisi ullamcorper sagittis id 
-        vel leo. Integer feugiat faucibus libero, at 
-        maximus nisl suscipit posuere.
-        `}
-      />
-    </Box>
-      <Box style={{background:'rgba(0, 129, 77, 0.493)'}}>
-        <CarouselComponent />
       </Box>
+      <CarouselComponent />
+    </Box>
   </Layout>
   )
 }
