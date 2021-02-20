@@ -33,7 +33,6 @@ export const HeroTextItem = ({emphasis = false, direction, primaryText, secondar
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        console.log(entry.isIntersecting);
         if (entry.isIntersecting) {
           setVisible(true)
           setTimeout(()=> setVisibleDelay(true), 700)

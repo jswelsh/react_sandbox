@@ -61,8 +61,13 @@ const useStyles = makeStyles((theme) => ({
   productsList: {
     overflow: 'hidden',
     display:'flex',
-    justifyContent:'center',  
+    justifyContent:'center',
     padding:theme.spacing(2),
+    marginTop: theme.spacing(12),
+    [theme.breakpoints.up('md')]: {
+      marginTop: theme.spacing(24),
+
+    },
   },
   productsTitle: {
     padding:'32px 32px 8px 32px',
@@ -152,7 +157,7 @@ const Products = () => {
       <Img fluid={data?.placeholderImage?.childImageSharp?.fluid} />
     </Container>
     <Box className={classes.productSection}>
-      <Box style={{background:'rgba(0, 0, 0, 0.4)'}}>
+      <Box style={{marginBottom: '256px', padding: '16px 0px', background:'rgba(0, 0, 0, 0.4)'}}>
         <Box className={classes.BrandPillar}>
           <HeroTextSection
             first={{
@@ -177,7 +182,7 @@ const Products = () => {
             style={{display:'inline', borderBottom:'solid 5px #00af69'}}
             children={`overbuilt.`}
           />
-          <Typography
+          <Typography 
             variant='h6'
             style={{display:'inline'}}
             children={`
@@ -191,7 +196,7 @@ const Products = () => {
           />
         </Box>
         <CarouselComponent
-          
+          mode={'toLast'}
           />
       </Box>
 
@@ -225,7 +230,7 @@ const Products = () => {
         </Grid>
       </List>
     </Box>
-    <Box style={{background:'rgba(0, 0, 0, 0.4)'}}>
+    <Box style={{padding: '16px 0px', background:'rgba(0, 0, 0, 0.4)'}}>
       <Box className={classes.BrandPillar}>
         <HeroTextSection
           first={{
@@ -260,7 +265,7 @@ const Products = () => {
           `}
         />
       </Box>
-      <CarouselComponent />
+      <CarouselComponent mode={'edgeDesign'}/>
     </Box>
   </Layout>
   )

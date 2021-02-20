@@ -33,16 +33,15 @@ const ProductItem = ({
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        console.log(entry.isIntersecting);
         if (entry.isIntersecting) {
           setVisible(true)
-          observer.unobserve(domRef.current);
+          observer.unobserve(domRef.current)
         }
       })
     }, options);
     observer.observe(domRef.current);
     return () => observer.unobserve(domRef.current)// clean up
-  }, []);
+  }, [])
   return (
     <Grid
       ref={domRef}
@@ -56,10 +55,9 @@ const ProductItem = ({
                 maxWidth: '500px',
                 margin:'auto'
                 }}>
-              <CardMedia>
-                {image}
-              </CardMedia>
-              <CardContent>
+              <CardMedia
+                children={image}/>
+              <CardContent style={{padding:'0px 0px 48px 0px'}}>
                 <Typography
                   variant='h3'
                   className={classes.productTitle}

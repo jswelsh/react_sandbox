@@ -6,7 +6,7 @@ import Img from "gatsby-image"
 
 const useStyles = makeStyles((theme) => ({
   heroImage: {
-    maxWidth:'520px',
+    maxWidth:'420',
     background:'pink',
     padding:0
   },
@@ -25,28 +25,42 @@ const useStyles = makeStyles((theme) => ({
 
 const query = graphql`
   query {
-    placeholderImage: file(relativePath: { eq: "c1.jpg" }) {
+    c1: file(relativePath: { eq: "c1.jpg" }) {
       childImageSharp {
         fluid(maxWidth: 420) {
           ...GatsbyImageSharpFluid
         }
       }
     },
-    placeholderImageTwo: file(relativePath: { eq: "c2.jpg" }) {
+    c2: file(relativePath: { eq: "c2.jpg" }) {
       childImageSharp {
         fluid(maxWidth: 420) {
           ...GatsbyImageSharpFluid
         }
       }
     },
-    placeholderImageThree: file(relativePath: { eq: "c5.jpg" }) {
+    c3: file(relativePath: { eq: "c5.jpg" }) {
       childImageSharp {
         fluid(maxWidth: 420) {
           ...GatsbyImageSharpFluid
         }
       }
     },
-    placeholderImageFour: file(relativePath: { eq: "c4.jpg" }) {
+    c4: file(relativePath: { eq: "c4.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 420) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    },
+    b1: file(relativePath: { eq: "b1.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 420) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    },
+    b2: file(relativePath: { eq: "b2.jpg" }) {
       childImageSharp {
         fluid(maxWidth: 420) {
           ...GatsbyImageSharpFluid
@@ -55,29 +69,53 @@ const query = graphql`
     }
   }
 `
-
-const CarouselComponent = ({}) => {
+/* ,
+    b3: file(relativePath: { eq: "b3.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 420) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    },
+    b4: file(relativePath: { eq: "b4.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 420) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }, */
+const CarouselComponent = ({ mode }) => {
   const data = useStaticQuery(query)
-
-  let items = [
+  let items = mode === 'toLast'
+  ? [
     {
       primary: "In the Studio",
       secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
-      image: data?.placeholderImage?.childImageSharp?.fluid
+      image: data?.c1?.childImageSharp?.fluid
     },{
       primary: "On the Stage",
       secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
-      image: data?.placeholderImageTwo?.childImageSharp?.fluid
+      image: data?.c2?.childImageSharp?.fluid
     },{
       primary: "On the Go",
       secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
-      image: data?.placeholderImageThree?.childImageSharp?.fluid
+      image: data?.c3?.childImageSharp?.fluid
     },{
       primary: "In the Gym",
       secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
-      image: data?.placeholderImageFour?.childImageSharp?.fluid
-    }
-]
+      image: data?.c4?.childImageSharp?.fluid
+    }]
+  : [
+    {
+      primary: "Designed for Professional",
+      secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
+      image: data?.b1?.childImageSharp?.fluid
+    },{
+      primary: "Designed for Everyday",
+      secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
+      image: data?.b2?.childImageSharp?.fluid
+    },
+  ]
 
 const perChunk = 2
 const chunkedItems = items.reduce((resultArray, item, index) => { 
@@ -91,20 +129,26 @@ const chunkedItems = items.reduce((resultArray, item, index) => {
 
   return (
     <>
-    <Hidden lgUp>
-      <Carousel interval={5000}>
-      {
-        items.map( (item, i) => <SingleCarouselItem key={i} image={item.image}primary={item.primary} secondary={item.secondary}/> )
-      }
-      </Carousel>
-    </Hidden>
-    <Hidden mdDown>
-      <Carousel interval={600000} >
-      {
-        chunkedItems.map( (items, i) => <DoubleCarouselItem key={i} items={items} /> )
-      }
-      </Carousel>
-    </Hidden>
+      <Hidden lgUp>
+        <Carousel interval={500000}>
+          {items.map( (item, i) => (
+            <Paper style={{background: 'transparent', display: 'flex', maxHeight: '420px' }}>
+              <Item key={i} image={item.image} primary={item.primary} secondary={item.secondary} />
+            </Paper>
+          ))}
+        </Carousel>
+      </Hidden>
+      <Hidden mdDown>
+        <Carousel interval={5000} >
+        {chunkedItems.map( (items, i) =>(
+          <Paper style={{background: 'transparent', display: 'flex', maxHeight: '420px'}}>
+            {items.map( (item, i) => (
+              <Item key={item.key} image={item.image} primary={item.primary} secondary={item.secondary} />
+            ))}
+          </Paper>
+        ))}
+        </Carousel>
+      </Hidden>
     </>
   )
 }
@@ -112,39 +156,21 @@ const chunkedItems = items.reduce((resultArray, item, index) => {
 function Item({image, primary, secondary}) {
   const classes = useStyles();
   return (
-    <>
-      <Container
-        className={classes.heroImage}>
+    <Grid container xs={12}>
+      <Grid item xs={4} className={classes.heroImage}>
         <Img fluid={image} />
-      </Container>
-      <Container>
-        <Typography variant='h6' style={{marginLeft:'16px', marginTop:'16px'}}>
-          {primary}
-        </Typography>
-        <Typography variant='body1' style={{marginLeft:'16px', marginTop:'16px'}}>
-          {secondary}
-        </Typography>
-      </Container>
-      </>
-  )
-}
-
-const SingleCarouselItem = ({
-  image, primary, secondary, key
-}) => {
-  return (
-    <Paper style={{background: 'transparent', display: 'flex'}}>
-      <Item key={key} image={image} primary={primary} secondary={secondary} />
-      </Paper>
-
-  )
-}
-const DoubleCarouselItem = ({items}) => {
-  return (
-    <Paper style={{background: 'transparent', display: 'flex'}}>
-      <Item key={items[0].key} image={items[0].image}primary={items[0].primary} secondary={items[0].secondary} />
-      <Item key={items[1].key} image={items[1].image}primary={items[1].primary} secondary={items[1].secondary} />
-    </Paper>
+      </Grid>
+      <Grid item xs={8}>
+        <Container>
+          <Typography variant='h6' style={{marginLeft:'16px', marginTop:'16px'}}>
+            {primary}
+          </Typography>
+          <Typography variant='body1' style={{marginLeft:'16px', marginTop:'16px'}}>
+            {secondary}
+          </Typography>
+        </Container>
+      </Grid>
+    </Grid>
   )
 }
 
