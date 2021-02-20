@@ -4,6 +4,8 @@ import { Box, Container, Grid, Hidden, makeStyles, Paper, Typography} from '@mat
 import { useStaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
 
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 const useStyles = makeStyles((theme) => ({
   heroImage: {
     maxWidth:'420',
@@ -21,6 +23,18 @@ const useStyles = makeStyles((theme) => ({
       color: '#00af69'
     },
   },
+  CarouselActiveIndicator:{
+    color: '#00af69'
+  },
+  CarouselItem:{
+    background: 'transparent',
+    display: 'flex',
+    maxHeight: '420px'
+  },
+  CarouselItemText:{
+    marginLeft:'16px',
+    marginTop:'16px'
+  }
 }));
 
 const query = graphql`
@@ -86,6 +100,8 @@ const query = graphql`
     }, */
 const CarouselComponent = ({ mode }) => {
   const data = useStaticQuery(query)
+  const classes = useStyles()
+  
   let items = mode === 'toLast'
   ? [
     {
@@ -130,20 +146,38 @@ const chunkedItems = items.reduce((resultArray, item, index) => {
   return (
     <>
       <Hidden lgUp>
-        <Carousel interval={500000}>
+        <Carousel
+          interval={5000}
+          activeIndicatorProps={{
+            className:classes.CarouselActiveIndicator, 
+            style: null}}>
           {items.map( (item, i) => (
-            <Paper style={{background: 'transparent', display: 'flex', maxHeight: '420px' }}>
-              <Item key={i} image={item.image} primary={item.primary} secondary={item.secondary} />
+            <Paper
+              className={classes.CarouselItem}>
+              <Item
+                key={i}
+                image={item.image}
+                primary={item.primary}
+                secondary={item.secondary} />
             </Paper>
           ))}
         </Carousel>
       </Hidden>
       <Hidden mdDown>
-        <Carousel interval={5000} >
+        <Carousel
+          interval={5000}
+          activeIndicatorProps={{
+            className:classes.CarouselActiveIndicator, 
+            style: null}}>
         {chunkedItems.map( (items, i) =>(
-          <Paper style={{background: 'transparent', display: 'flex', maxHeight: '420px'}}>
+          <Paper
+            className={classes.CarouselItem}>
             {items.map( (item, i) => (
-              <Item key={item.key} image={item.image} primary={item.primary} secondary={item.secondary} />
+              <Item
+                key={item.key}
+                image={item.image}
+                primary={item.primary}
+                secondary={item.secondary} />
             ))}
           </Paper>
         ))}
@@ -157,17 +191,21 @@ function Item({image, primary, secondary}) {
   const classes = useStyles();
   return (
     <Grid container xs={12}>
-      <Grid item xs={4} className={classes.heroImage}>
+      <Grid
+        item xs={4}
+        className={classes.heroImage}>
         <Img fluid={image} />
       </Grid>
       <Grid item xs={8}>
         <Container>
-          <Typography variant='h6' style={{marginLeft:'16px', marginTop:'16px'}}>
-            {primary}
-          </Typography>
-          <Typography variant='body1' style={{marginLeft:'16px', marginTop:'16px'}}>
-            {secondary}
-          </Typography>
+          <Typography
+            variant='h6'
+            className={classes.CarouselItemText}
+            children={primary}/>
+          <Typography
+            variant='body1'
+            className={classes.CarouselItemText}
+            children={secondary}/>
         </Container>
       </Grid>
     </Grid>

@@ -47,7 +47,11 @@ const ProductItem = ({
       ref={domRef}
       item xs={12} sm={12} md={6} lg={6} xl={6} spacing={3}
       className={classes.Grid}>
-      <Slide direction={direction} in={isVisible} mountOnEnter timeout={1200} >
+      <Slide
+        direction={direction}
+        in={isVisible}
+        mountOnEnter
+        timeout={1200} >
         <div>
           <Fade timeout={1500} in={isVisible}>
             <Card

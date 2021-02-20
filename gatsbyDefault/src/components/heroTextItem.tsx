@@ -76,7 +76,10 @@ export const HeroTextItem = ({emphasis = false, direction, primaryText, secondar
         >
         <div >
           {secondaryText && <Typography
-            className={clsx(emphasis ? classes.Primary : null, classes.BrandCaptionPrimary) }
+            className={clsx(
+              emphasis
+              ? classes.Primary
+              : null, classes.BrandCaptionPrimary) }
             variant='h3'
             style={{textTransform: 'uppercase', display:'inline', paddingLeft: primaryText ? '16px' : '0px'}}
             children={secondaryText}
@@ -87,8 +90,7 @@ export const HeroTextItem = ({emphasis = false, direction, primaryText, secondar
         direction={direction}
         in={isVisible}
         mountOnEnter
-        timeout={900}
-        >
+        timeout={900}>
         <div>
           <Divider className={classes.Divider} />
         </div>
