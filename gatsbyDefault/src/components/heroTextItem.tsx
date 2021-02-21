@@ -81,7 +81,10 @@ export const HeroTextItem = ({emphasis = false, direction, primaryText, secondar
               ? classes.Primary
               : null, classes.BrandCaptionPrimary) }
             variant='h3'
-            style={{textTransform: 'uppercase', display:'inline', paddingLeft: primaryText ? '16px' : '0px'}}
+            style={{
+              textTransform: 'uppercase',
+              display:'inline',
+              paddingLeft: primaryText ? '16px' : '0px'}}
             children={secondaryText}
           />}
         </div>

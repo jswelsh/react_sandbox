@@ -9,12 +9,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 const useStyles = makeStyles((theme) => ({
   heroImage: {
     maxWidth:'420',
-    background:'pink',
+    background:'transparent',
     padding:0
   },
   heroText: {
     maxWidth:'1040px',
-    background:'pink',
+    background:'transparent',
     padding:0
   },
   productTitle: {
@@ -67,37 +67,37 @@ const query = graphql`
         }
       }
     },
-    b1: file(relativePath: { eq: "b1.png" }) {
+    h1: file(relativePath: { eq: "headhpones/h1.png" }) {
       childImageSharp {
         fluid(maxWidth: 420) {
           ...GatsbyImageSharpFluid
         }
       }
     },
-    b2: file(relativePath: { eq: "b2.jpg" }) {
+    h2: file(relativePath: { eq: "headhpones/h5.png" }) {
       childImageSharp {
         fluid(maxWidth: 420) {
           ...GatsbyImageSharpFluid
         }
       }
-    }
+    },
+    h3: file(relativePath: { eq: "headhpones/h3.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 420) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    },
+    h4: file(relativePath: { eq: "headhpones/h4.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 420) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    },
   }
 `
-/* ,
-    b3: file(relativePath: { eq: "b3.jpg" }) {
-      childImageSharp {
-        fluid(maxWidth: 420) {
-          ...GatsbyImageSharpFluid
-        }
-      }
-    },
-    b4: file(relativePath: { eq: "b4.jpg" }) {
-      childImageSharp {
-        fluid(maxWidth: 420) {
-          ...GatsbyImageSharpFluid
-        }
-      }
-    }, */
+
 const CarouselComponent = ({ mode }) => {
   const data = useStaticQuery(query)
   const classes = useStyles()
@@ -123,14 +123,23 @@ const CarouselComponent = ({ mode }) => {
     }]
   : [
     {
-      primary: "Designed for Professional",
+      primary: "Designed for Professionals",
       secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
-      image: data?.b1?.childImageSharp?.fluid
+      image: data?.h1?.childImageSharp?.fluid
     },{
-      primary: "Designed for Everyday",
+      primary: "Engineered with audiophile sound",
       secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
-      image: data?.b2?.childImageSharp?.fluid
+      image: data?.h2?.childImageSharp?.fluid
+    },    {
+      primary: "Designed for last",
+      secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
+      image: data?.h5?.childImageSharp?.fluid
+    },{
+      primary: "Engineered for mixing and mastering",
+      secondary: "sed sollicitudin elit convallis. Cras pharetra mi tristique sapien vestibulum lobortis.",
+      image: data?.h6?.childImageSharp?.fluid
     },
+
   ]
 
 const perChunk = 2
