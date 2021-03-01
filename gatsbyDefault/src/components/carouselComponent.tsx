@@ -1,10 +1,8 @@
 import React from 'react'
 import Carousel from 'react-material-ui-carousel'
-import { Box, Container, Grid, Hidden, makeStyles, Paper, Typography} from '@material-ui/core'
+import { Container, Grid, Hidden, makeStyles, Paper, Typography } from '@material-ui/core'
 import { useStaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
-
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   heroImage: {
@@ -176,7 +174,7 @@ const chunkedItems = items.reduce((resultArray, item, index) => {
         <Carousel
           interval={5000}
           activeIndicatorProps={{
-            className:classes.CarouselActiveIndicator, 
+            className:classes.CarouselActiveIndicator,
             style: null}}>
         {chunkedItems.map( (items, i) =>(
           <Paper
@@ -210,11 +208,11 @@ function Item({image, primary, secondary}) {
           <Typography
             variant='h6'
             className={classes.CarouselItemText}
-            children={primary}/>
+            children={primary} />
           <Typography
             variant='body1'
             className={classes.CarouselItemText}
-            children={secondary}/>
+            children={secondary} />
         </Container>
       </Grid>
     </Grid>
