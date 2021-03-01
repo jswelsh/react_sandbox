@@ -10,6 +10,7 @@ import clsx from  'clsx'
 import HeroTextSection from "../components/heroTextSection";
 import ProductItem from "../components/productItem";
 import productsList from "../data/productsList";
+import CarouselComponent from "../components/carouselComponent";
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -48,20 +49,25 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   BrandPillar:{
-    margin: '0px 64px 64px 64px',
-    [theme.breakpoints.up('sm')]: {
+    margin: '24px 64px',
+/*     [theme.breakpoints.up('sm')]: {
       margin: '0px 64px 96px 64px'
     },
     [theme.breakpoints.up('md')]: {
       margin: '0px 64px 128px 64px'
-    }
+    } */
   },
 
   productsList: {
     overflow: 'hidden',
     display:'flex',
-    justifyContent:'center',  
+    justifyContent:'center',
     padding:theme.spacing(2),
+    marginTop: theme.spacing(12),
+    [theme.breakpoints.up('md')]: {
+      marginTop: theme.spacing(24),
+
+    },
   },
   productsTitle: {
     padding:'32px 32px 8px 32px',
@@ -151,43 +157,49 @@ const Products = () => {
       <Img fluid={data?.placeholderImage?.childImageSharp?.fluid} />
     </Container>
     <Box className={classes.productSection}>
-      <Box className={classes.BrandPillar}>
-      <HeroTextSection
-        first={{
-          direction:'left',
-          primaryText:'forged',
-          secondaryText: null}}
-        second={{
-          direction:'left',
-          primaryText:'to ',
-          secondaryText:' last'}}
-        />
-        <Typography
-          variant='h6'
-          style={{display:'inline'}}
-          children={`
-          The real world is a complex place, 
-          which is why all of our products are 
-          `}
-        />
-        <Typography
-          variant='h6'
-          style={{display:'inline', borderBottom:'solid 5px #00af69'}}
-          children={`overbuilt.`}
-        />
-        <Typography
-          variant='h6'
-          style={{display:'inline'}}
-          children={`
-          Pick up any of 
-          our products, and marvel at their weight, heft, and solidity. 
-          Even our smallest products are made of aluminum and steel. 
-          The larger products use high-quality C-core transformers, 
-          extensive power supply filtering, and precision low-noise 
-          regulation.
-          `}
-        />
+      <Box style={{marginBottom: '256px', padding: '16px 0px', background:'rgba(0, 0, 0, 0.4)'}}>
+        <Box className={classes.BrandPillar}>
+          <HeroTextSection
+            first={{
+              direction:'left',
+              primaryText:'forged',
+              secondaryText: null}}
+            second={{
+              direction:'left',
+              primaryText:'to ',
+              secondaryText:' last'}}
+          />
+          <Typography
+            variant='h6'
+            style={{display:'inline'}}
+            children={`
+            The real world is a complex place, 
+            which is why all of our products are 
+            `}
+          />
+          <Typography
+            variant='h6'
+            style={{display:'inline', borderBottom:'solid 5px #00af69'}}
+            children={`overbuilt.`}
+          />
+          <Typography 
+            variant='h6'
+            style={{display:'inline'}}
+            children={`
+            Pick up any of 
+            our products, and marvel at their weight, heft, and solidity. 
+            Even our smallest products are made of aluminum and steel. 
+            The larger products use high-quality C-core transformers, 
+            extensive power supply filtering, and precision low-noise 
+            regulation.
+            `}
+          />
+        </Box>
+        <CarouselComponent
+          mode={'toLast'}
+          />
       </Box>
+
       <Typography
         variant="h3"
         className={classes.productsTitle}
@@ -218,114 +230,44 @@ const Products = () => {
         </Grid>
       </List>
     </Box>
-    
-    <Box className={classes.BrandPillar}>
-      <HeroTextSection
-        first={{
-          direction:'left',
-          primaryText:'cutting',
-          secondaryText: null}}
-        second={{
-          direction:'left',
-          primaryText:'edge',
-          secondaryText:' design'}}
+    <Box style={{padding: '16px 0px', background:'rgba(0, 0, 0, 0.4)'}}>
+      <Box className={classes.BrandPillar}>
+        <HeroTextSection
+          first={{
+            direction:'left',
+            primaryText:'cutting',
+            secondaryText: null}}
+          second={{
+            direction:'left',
+            primaryText:'edge',
+            secondaryText:' design'}}
+          />
+        <Typography
+          variant='h6'
+          style={{display:'inline'}}
+          children={`
+          Class aptent taciti sociosqu ad litora torquent 
+          per conubia nostra, per inceptos himenaeos. Luctus  
+          lacus ut 
+          `}/>
+        <Typography
+          variant='h6'
+          style={{display:'inline', borderBottom:'solid 5px #00af69'}}
+          children={`pharetra`}/>
+        <Typography
+          variant='h6'
+          style={{display:'inline'}}
+          children={`
+          lacinia quis posuere ut, pulvinar vitae dolor.
+          Integer eu nibh at nisi ullamcorper sagittis id 
+          vel leo. Integer feugiat faucibus libero, at 
+          maximus nisl suscipit posuere.
+          `}
         />
-      <Typography
-        variant='h6'
-        style={{display:'inline'}}
-        children={`
-        Class aptent taciti sociosqu ad litora torquent 
-        per conubia nostra, per inceptos himenaeos. Luctus  
-        lacus ut 
-        `}
-      />
-      <Typography
-        variant='h6'
-        style={{display:'inline', borderBottom:'solid 5px #00af69'}}
-        children={`pharetra`}
-      />
-      <Typography
-        variant='h6'
-        style={{display:'inline'}}
-        children={`
-        lacinia quis posuere ut, pulvinar vitae dolor.
-        Integer eu nibh at nisi ullamcorper sagittis id 
-        vel leo. Integer feugiat faucibus libero, at 
-        maximus nisl suscipit posuere.
-        `}
-      />
+      </Box>
+      <CarouselComponent mode={'edgeDesign'}/>
     </Box>
   </Layout>
   )
 }
 export default Products
-
-
-
-/* 
-
- <ProductItem
-            direction={'right'}
-            title={'Denali 922.00'}
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-              nisi ut aliquip ex ea commodo consequat.
-            `}
-            image={
-              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-            }
-          />
-          <ProductItem
-            direction={'left'}
-            title={'TMZ-450'}
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-              nisi ut aliquip ex ea commodo consequat.
-            `}
-            image={
-              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-            }
-          />
-          <ProductItem
-            direction={'right'}
-            title={'Obsidian Theto'}
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-              nisi ut aliquip ex ea commodo consequat.
-            `}
-            image={
-              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-            }
-          />
-          <ProductItem
-            direction={'left'}
-            title={'Trinity-U M100'}
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-              nisi ut aliquip ex ea commodo consequat.`}
-            image={
-              <Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />
-            }
-          />
-          <ProductItem
-            direction={'right'}
-            title={'Deltron 0'}
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-              nisi ut aliquip ex ea commodo consequat.`}
-            image={<Img fluid={data?.placeholderImageTwo?.childImageSharp?.fluid} />}
-          />
-
-
-
-*/
